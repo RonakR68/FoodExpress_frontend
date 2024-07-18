@@ -16,7 +16,7 @@ const LoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(email);
+            //console.log(email);
             await login(email, password);
             setError(null); // Clear error if login succeeds
         } catch (error) {

@@ -1,5 +1,5 @@
-// SignupPage.tsx
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,7 @@ const SignupPage = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [name, setName] = useState("");
     const { signup } = useAuth();
-    const [error, setError] = useState < string | null > (null);
+    const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -72,6 +72,12 @@ const SignupPage = () => {
                             <Button type="submit" className="w-full">
                                 Sign Up
                             </Button>
+                            <p className="text-center">
+                                Already have an account?{" "}
+                                <Link to="/api/auth/login" className="text-red-500">
+                                    Login
+                                </Link>
+                            </p>
                         </form>
                     </CardContent>
                 </Card>

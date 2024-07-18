@@ -28,6 +28,7 @@ const AppRoutes = () => {
                 element={<SignupPage />}
             />
 
+           
             {/* protect user profile route */}
             <Route element={<ProtectedRoute />}>
                 <Route

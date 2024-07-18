@@ -14,7 +14,7 @@ import MobileNavLinks from "./MobileNavLinks";
 
 const MobileNav = () => {
     const { isAuthenticated, login, user } = useAuth(); // Use custom auth hook
-
+    //console.log(user?.name);
     return (
         <Sheet>
             <SheetTrigger>
@@ -25,7 +25,7 @@ const MobileNav = () => {
                     {isAuthenticated ? (
                         <span className="flex items-center font-bold gap-2">
                             <CircleUserRound className="text-red-500 dark:text-red-500" />
-                            {user?.email}
+                            {user?.nickname}
                         </span>
                     ) : (
                         <span>Food Express</span>

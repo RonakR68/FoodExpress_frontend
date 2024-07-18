@@ -2,38 +2,37 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+axios.defaults.withCredentials = true;
 const AuthContext = createContext();
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    JSON.parse(localStorage.getItem("isAuthenticated")) || false
+  );
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || null
+  );
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await axios.get("/api/auth/status", { withCredentials: true });
-        setIsAuthenticated(response.data.isAuthenticated);
-      } catch (error) {
-        console.error("Failed to check authentication status:", error);
-        setIsAuthenticated(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkAuthStatus();
-  }, []);
+    localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [isAuthenticated, user]);
 
   const login = async (email, password) => {
     try {
       const response = await axios.post(
-        "http://localhost:7000/api/auth/login",
+        `${API_BASE_URL}/api/auth/login`,
         { email, password },
         { withCredentials: true }
       );
       if (response.status === 200) {
         setIsAuthenticated(true);
+        setUser(response.data);
+        localStorage.setItem("isAuthenticated", JSON.stringify(true));
+        localStorage.setItem("user", JSON.stringify(response.data));
         navigate("/");
       }
     } catch (error) {
@@ -45,12 +44,15 @@ export const AuthProvider = ({ children }) => {
   const signup = async (email, password, name) => {
     try {
       const response = await axios.post(
-        "/api/auth/register",
+        `${API_BASE_URL}/api/auth/register`,
         { email, password, name },
         { withCredentials: true }
       );
       if (response.status === 201) {
         setIsAuthenticated(true);
+        setUser(response.data);
+        localStorage.setItem("isAuthenticated", JSON.stringify(true));
+        localStorage.setItem("user", JSON.stringify(response.data));
         navigate("/");
       }
     } catch (error) {
@@ -61,8 +63,11 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post("/api/auth/logout", {}, { withCredentials: true });
+      await axios.post(`${API_BASE_URL}/api/auth/logout`, {}, { withCredentials: true });
       setIsAuthenticated(false);
+      setUser(null);
+      localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("user");
       navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
@@ -70,7 +75,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, signup, logout, loading }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, signup, logout, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );
