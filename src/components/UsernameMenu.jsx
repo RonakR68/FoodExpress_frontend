@@ -8,9 +8,10 @@ import {
 import { Link } from "react-router-dom";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
+import { useAuth } from "../auth/AuthContext";
 
 const UsernameMenu = () => {
-
+  const { user, logout } = useAuth();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center px-3 font-bold hover:text-red-500 gap-2">
