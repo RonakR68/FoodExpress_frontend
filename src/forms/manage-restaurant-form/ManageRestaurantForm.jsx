@@ -88,7 +88,8 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
             price: parseInt((item.price / 100).toFixed(2)),
         }));
 
-        // Reset form with restaurant data
+
+        
         form.reset({
             restaurantName: restaurant.restaurantName || "",
             city: restaurant.city || "",
