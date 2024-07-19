@@ -10,7 +10,8 @@ const ManageRestaurantPage = () => {
     const { createRestaurant, isLoading: isCreateLoading } = useCreateMyRestaurant();
     const { restaurant } = useGetMyRestaurant();
     const { updateRestaurant, isLoading: isUpdateLoading } = useUpdateMyRestaurant();
-
+    console.log('restaurant');
+    console.log(restaurant);
     const isEditing = !!restaurant; // true if restaurant exists for user
 
     return (

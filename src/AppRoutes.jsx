@@ -6,6 +6,7 @@ import UserProfilePage from "./pages/UserProfilePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ManageRestaurantPage from "./pages/ManageRestaurantPage";
+import SearchPage from "./pages/SearchPage";
 
 const AppRoutes = () => {
     return (
@@ -27,6 +28,15 @@ const AppRoutes = () => {
             <Route
                 path="/api/auth/register"
                 element={<SignupPage />}
+            />
+
+            <Route
+                path="/search/:city"
+                element={
+                    <Layout showHero={false}>
+                        <SearchPage />
+                    </Layout>
+                }
             />
 
 

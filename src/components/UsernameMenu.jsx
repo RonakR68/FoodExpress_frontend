@@ -23,7 +23,7 @@ const UsernameMenu = () => {
         <DropdownMenuItem>
           <Link
             to="/manage-restaurant"
-            className="font-bold hover:text-orange-500"
+            className="font-bold hover:text-red-500"
           >
             Manage Restaurant
           </Link>
