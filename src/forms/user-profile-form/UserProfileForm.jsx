@@ -24,14 +24,32 @@ const formSchema = z.object({
     country: z.string().min(1, "Country is required"),
 });
 
+
 const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
     const form = useForm({
         resolver: zodResolver(formSchema),
-        defaultValues: currentUser,
+        defaultValues: {
+            email: "",
+            name: "",
+            addressLine1: "",
+            addressLine2: "",
+            city: "",
+            country: "",
+        },
     });
 
+
     useEffect(() => {
-        form.reset(currentUser);
+        if (currentUser) {
+            form.reset({
+                email: currentUser.email || "",
+                name: currentUser.name || "",
+                addressLine1: currentUser.addressLine1 || "",
+                addressLine2: currentUser.addressLine2 || "",
+                city: currentUser.city || "",
+                country: currentUser.country || "",
+            });
+        }
     }, [currentUser, form]);
 
     return (
@@ -64,7 +82,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                         <FormItem>
                             <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input {...field} className="bg-white" />
+                                <Input {...field} value={field.value || ""} className="bg-white" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -79,7 +97,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                             <FormItem className="flex-1">
                                 <FormLabel>Address Line 1</FormLabel>
                                 <FormControl>
-                                    <Input {...field} className="bg-white" />
+                                    <Input {...field} value={field.value || ""} className="bg-white" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -92,7 +110,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                             <FormItem className="flex-1">
                                 <FormLabel>Address Line 2</FormLabel>
                                 <FormControl>
-                                    <Input {...field} className="bg-white" />
+                                    <Input {...field} value={field.value || ""} className="bg-white" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -105,7 +123,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                             <FormItem className="flex-1">
                                 <FormLabel>City</FormLabel>
                                 <FormControl>
-                                    <Input {...field} className="bg-white" />
+                                    <Input {...field} value={field.value || ""} className="bg-white" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -118,7 +136,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                             <FormItem className="flex-1">
                                 <FormLabel>Country</FormLabel>
                                 <FormControl>
-                                    <Input {...field} className="bg-white" />
+                                    <Input {...field} value={field.value || ""} className="bg-white" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

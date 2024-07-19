@@ -5,6 +5,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import UserProfilePage from "./pages/UserProfilePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 
 const AppRoutes = () => {
     return (
@@ -28,7 +29,7 @@ const AppRoutes = () => {
                 element={<SignupPage />}
             />
 
-           
+
             {/* protect user profile route */}
             <Route element={<ProtectedRoute />}>
                 <Route
@@ -39,6 +40,16 @@ const AppRoutes = () => {
                         </Layout>
                     }
                 />
+
+                <Route
+                    path="/manage-restaurant"
+                    element={
+                        <Layout>
+                            <ManageRestaurantPage />
+                        </Layout>
+                    }
+                />
+
             </Route>
 
             <Route path="*" element={<Navigate to="/" />} />
