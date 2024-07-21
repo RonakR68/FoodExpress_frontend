@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,8 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const { login } = useAuth();
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,6 +21,9 @@ const LoginPage = () => {
             //console.log(email);
             await login(email, password);
             setError(null); // Clear error if login succeeds
+            // Redirect to the original page or a default page
+            const returnTo = location.state?.returnTo || "/";
+            navigate(returnTo);
         } catch (error) {
             console.error("Login error:", error);
             setError("Login failed, please try again");

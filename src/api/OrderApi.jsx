@@ -32,7 +32,7 @@ export const useCreateCheckoutSession = () => {
     const createCheckoutSessionRequest = async (
         checkoutSessionRequest
     ) => {
-        console.log(checkoutSessionRequest)
+        //console.log(checkoutSessionRequest)
         const response = await fetch(
             `${API_BASE_URL}/api/order/checkout/create-checkout-session`,
             {

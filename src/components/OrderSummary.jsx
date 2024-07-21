@@ -5,7 +5,7 @@ import { Trash } from "lucide-react";
 
 
 const OrderSummary = ({ restaurant, cartItems, clearCartItem }) => {
-    console.log(cartItems);
+    //console.log(cartItems);
     const getTotalCost = () => {
         const totalInPence = cartItems.reduce(
             (total, cartItem) => total + cartItem.price * cartItem.quantity,
