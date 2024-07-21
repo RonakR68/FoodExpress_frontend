@@ -72,7 +72,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
                 estimatedDeliveryTime: 0,
                 cuisines: [],
                 menuItems: [{ name: "", price: 0 }],
-                imageUrl: "",
+                //imageUrl: "",
                 imageFile: null,
             });
             return;
@@ -89,7 +89,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
         }));
 
 
-        
+
         form.reset({
             restaurantName: restaurant.restaurantName || "",
             city: restaurant.city || "",
@@ -98,7 +98,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
             cuisines: restaurant.cuisines || [],
             menuItems: menuItemsFormatted.length ? menuItemsFormatted : [{ name: "", price: 0 }],
             imageUrl: restaurant.imageUrl || "",
-            imageFile: null,
+            //imageFile: null,
         });
     }, [form, restaurant]);
 
@@ -139,14 +139,14 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8 bg-gray-50 p-10 rounded-lg"
+                className="space-y-8 bg-background p-10 rounded-lg text-foreground dark:bg-gray-700"
             >
                 <DetailsSection />
-                <Separator />
+                <Separator className="border-border" />
                 <CuisinesSection />
-                <Separator />
+                <Separator className="border-border" />
                 <MenuSection />
-                <Separator />
+                <Separator className="border-border" />
                 <ImageSection />
                 {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
             </form>

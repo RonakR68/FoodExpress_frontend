@@ -39,13 +39,13 @@ const SearchBar = ({ onSubmit, onReset, placeHolder, searchQuery }) => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className={`flex items-center gap-3 justify-between flex-row border-2 rounded-full p-3 ${form.formState.errors.searchQuery && "border-red-500"
-                    }`}
+                className={`flex items-center gap-3 justify-between flex-row border-2 rounded-full p-3 ${form.formState.errors.searchQuery ? "border-red-500" : "border-gray-300 dark:border-gray-700"
+                    } bg-white dark:bg-gray-800`}
             >
                 <Search
                     strokeWidth={2.5}
                     size={30}
-                    className="ml-1 text-red-500 hidden md:block"
+                    className="ml-1 text-red-500 dark:text-red-500 hidden md:block"
                 />
                 <FormField
                     control={form.control}
@@ -56,7 +56,7 @@ const SearchBar = ({ onSubmit, onReset, placeHolder, searchQuery }) => {
                                 <Input
                                     {...field}
                                     value={field.value || ""}
-                                    className="border-none shadow-none text-xl focus-visible:ring-0"
+                                    className="border-none shadow-none text-xl focus-visible:ring-0 bg-transparent dark:text-white"
                                     placeholder={placeHolder}
                                 />
                             </FormControl>
@@ -68,11 +68,11 @@ const SearchBar = ({ onSubmit, onReset, placeHolder, searchQuery }) => {
                     onClick={handleReset}
                     type="button"
                     variant="outline"
-                    className="rounded-full"
+                    className="rounded-full bg-gray-200 dark:bg-gray-700 dark:text-white"
                 >
                     Reset
                 </Button>
-                <Button type="submit" className="rounded-full bg-red-500">
+                <Button type="submit" className="rounded-full bg-red-500 dark:bg-red-500 dark:text-white">
                     Search
                 </Button>
             </form>

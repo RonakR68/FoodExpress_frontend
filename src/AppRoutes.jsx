@@ -7,6 +7,8 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 import SearchPage from "./pages/SearchPage";
+import DetailPage from "./pages/DetailPage";
+import OrderStatusPage from "./pages/OrderStatusPage";
 
 const AppRoutes = () => {
     return (
@@ -39,8 +41,28 @@ const AppRoutes = () => {
                 }
             />
 
+            <Route
+                path="/detail/:restaurantId"
+                element={
+                    <Layout showHero={false}>
+                        <DetailPage />
+                    </Layout>
+                }
+            />
 
-            {/* protect user profile route */}
+
+            {/* protect  route */}
+
+            <Route
+                path="/order-status"
+                element={
+                    <Layout>
+                        <OrderStatusPage />
+                    </Layout>
+                }
+            />
+
+
             <Route element={<ProtectedRoute />}>
                 <Route
                     path="/user-profile"

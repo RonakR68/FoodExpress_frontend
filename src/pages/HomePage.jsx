@@ -13,8 +13,8 @@ const HomePage = () => {
 
     return (
         <div className="flex flex-col gap-12">
-            <div className="md:px-32 bg-white rounded-lg shadow-md py-8 flex flex-col gap-5 text-center -mt-16">
-                <h1 className="text-5xl font-bold tracking-tight text-red-600">
+            <div className="md:px-32 bg-card text-card-foreground  rounded-lg shadow-md py-8 flex flex-col gap-5 text-center -mt-16">
+                <h1 className="text-5xl font-bold tracking-tight text-primary">
                     Order Tasty Food Now!
                 </h1>
                 <span className="text-xl">Food is just a click away!</span>
@@ -22,7 +22,7 @@ const HomePage = () => {
             </div>
             <div className="grid md:grid-cols-2 gap-5">
                 <img src={landingImage} />
-                <div className="flex flex-col items-center justify-center gap-4 text-center">
+                <div className="flex flex-col items-center justify-center gap-4 text-center text-foreground">
                     <span className="font-bold text-3xl tracking-tighter">
                         Order food from your favorite restaurants even faster!
                     </span>

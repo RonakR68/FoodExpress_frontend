@@ -20,14 +20,14 @@ const MenuItemInput = ({ index, removeMenuItem }) => {
                 name={`menuItems.${index}.name`}
                 render={({ field }) => (
                     <FormItem>
-                        <FormLabel className="flex items-center gap-1">
+                        <FormLabel className="flex items-center gap-1 text-primary-foreground dark:text-white">
                             Name <FormMessage />
                         </FormLabel>
                         <FormControl>
                             <Input
                                 {...field}
-                                placeholder="Cheese Pizza"
-                                className="bg-white"
+                                placeholder="Veg Burger"
+                                className="bg-white dark:bg-gray-800 dark:text-white"
                             />
                         </FormControl>
                     </FormItem>
@@ -38,11 +38,11 @@ const MenuItemInput = ({ index, removeMenuItem }) => {
                 name={`menuItems.${index}.price`}
                 render={({ field }) => (
                     <FormItem>
-                        <FormLabel className="flex items-center gap-1">
-                            Price (INR) <FormMessage />
+                        <FormLabel className="flex items-center gap-1 text-primary-foreground dark:text-white">
+                            Price (INR) <FormMessage className="text-destructive-foreground dark:text-red-500" />
                         </FormLabel>
                         <FormControl>
-                            <Input {...field} placeholder="8.00" className="bg-white" />
+                            <Input {...field} placeholder="8.00" className="bg-white dark:bg-gray-800 dark:text-white" />
                         </FormControl>
                     </FormItem>
                 )}
@@ -50,7 +50,7 @@ const MenuItemInput = ({ index, removeMenuItem }) => {
             <Button
                 type="button"
                 onClick={removeMenuItem}
-                className="bg-red-500 max-h-fit"
+                className="bg-red-500 dark:bg-red-500 max-h-fit"
             >
                 Remove
             </Button>

@@ -25,7 +25,13 @@ const formSchema = z.object({
 });
 
 
-const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
+const UserProfileForm = ({
+    onSave,
+    isLoading,
+    currentUser,
+    title = "User Profile",
+    buttonText = "Submit",
+}) => {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -56,11 +62,11 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSave)}
-                className="space-y-4 bg-gray-50 rounded-lg md:p-10"
+                className="space-y-4 bg-gray-50 dark:bg-gray-600 rounded-lg md:p-10 text-gray-900 dark:text-gray-50"
             >
                 <div>
-                    <h2 className="text-2xl font-bold">User Profile Form</h2>
-                    <FormDescription>View and update profile</FormDescription>
+                    <h2 className="text-2xl font-bold">{title}</h2>
+                    <FormDescription className="text-gray-600 dark:text-gray-400">View and update profile</FormDescription>
                 </div>
                 <FormField
                     control={form.control}
@@ -69,7 +75,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                         <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input {...field} disabled className="bg-white" />
+                                <Input {...field} disabled className="bg-white dark:bg-gray-800 dark:text-white" />
                             </FormControl>
                         </FormItem>
                     )}
@@ -82,7 +88,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                         <FormItem>
                             <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input {...field} value={field.value || ""} className="bg-white" />
+                                <Input {...field} value={field.value || ""} className="bg-white dark:bg-gray-800 dark:text-white" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -97,9 +103,9 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                             <FormItem className="flex-1">
                                 <FormLabel>Address Line 1</FormLabel>
                                 <FormControl>
-                                    <Input {...field} value={field.value || ""} className="bg-white" />
+                                    <Input {...field} value={field.value || ""} className="bg-white dark:bg-gray-800 dark:text-white" />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className="text-red-500 dark:text-red-500"/>
                             </FormItem>
                         )}
                     />
@@ -110,9 +116,9 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                             <FormItem className="flex-1">
                                 <FormLabel>Address Line 2</FormLabel>
                                 <FormControl>
-                                    <Input {...field} value={field.value || ""} className="bg-white" />
+                                    <Input {...field} value={field.value || ""} className="bg-white dark:bg-gray-800 dark:text-white" />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className="text-red-500 dark:text-red-500"/>
                             </FormItem>
                         )}
                     />
@@ -123,7 +129,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                             <FormItem className="flex-1">
                                 <FormLabel>City</FormLabel>
                                 <FormControl>
-                                    <Input {...field} value={field.value || ""} className="bg-white" />
+                                    <Input {...field} value={field.value || ""} className="bg-white dark:bg-gray-800 dark:text-white" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -136,9 +142,9 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                             <FormItem className="flex-1">
                                 <FormLabel>Country</FormLabel>
                                 <FormControl>
-                                    <Input {...field} value={field.value || ""} className="bg-white" />
+                                    <Input {...field} value={field.value || ""} className="bg-white dark:bg-gray-800 dark:text-white" />
                                 </FormControl>
-                                <FormMessage />
+                                <FormMessage className="text-red-500 dark:text-red-500"/>
                             </FormItem>
                         )}
                     />
@@ -146,8 +152,8 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }) => {
                 {isLoading ? (
                     <LoadingButton />
                 ) : (
-                    <Button type="submit" className="bg-red-500">
-                        Submit
+                    <Button type="submit" className="bg-red-500 dark:bg-red-500">
+                        {buttonText}
                     </Button>
                 )}
             </form>

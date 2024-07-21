@@ -1,12 +1,13 @@
 import React from "react";
 import { Button } from "./ui/button";
 import UsernameMenu from "./UsernameMenu";
-import { useAuth } from "../auth/AuthContext"; // Import the custom auth hook
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useAuth } from "../auth/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const MainNav = () => {
-    const { isAuthenticated } = useAuth(); // Use custom auth hook
-    const navigate = useNavigate(); // Initialize navigate
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
 
     const handleLoginClick = () => {
         navigate("/api/auth/login");
@@ -15,7 +16,12 @@ const MainNav = () => {
     return (
         <span className="flex space-x-2 items-center">
             {isAuthenticated ? (
-                <UsernameMenu />
+                <>
+                    <Link to="/order-status" className="font-bold hover:text-red-500 dark:hover:text-red-500">
+                        Order Status
+                    </Link>
+                    <UsernameMenu />
+                </>
             ) : (
                 <Button
                     variant="ghost"

@@ -16,7 +16,7 @@ const DetailsSection = () => {
     return (
         <div className="space-y-2">
             <div>
-                <h2 className="text-2xl font-bold">Details</h2>
+                <h2 className="text-2xl font-bold dark:text-white">Details</h2>
                 <FormDescription>
                     Enter the details about your restaurant
                 </FormDescription>
@@ -26,11 +26,11 @@ const DetailsSection = () => {
                 name="restaurantName"
                 render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel className="dark:text-white">Name</FormLabel>
                         <FormControl>
-                            <Input {...field} className="bg-white" />
+                            <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-destructive-foreground dark:text-red-500"/>
                     </FormItem>
                 )}
             />
@@ -40,11 +40,11 @@ const DetailsSection = () => {
                     name="city"
                     render={({ field }) => (
                         <FormItem className="flex-1">
-                            <FormLabel>City</FormLabel>
+                            <FormLabel className=" dark:text-white">City</FormLabel>
                             <FormControl>
-                                <Input {...field} className="bg-white" />
+                                <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-destructive-foreground dark:text-red-500"/>
                         </FormItem>
                     )}
                 />
@@ -70,11 +70,11 @@ const DetailsSection = () => {
                 name="deliveryPrice"
                 render={({ field }) => (
                     <FormItem className="max-w-[25%]">
-                        <FormLabel>Delivery price (INR)</FormLabel>
+                        <FormLabel className=" dark:text-white">Delivery price (INR)</FormLabel>
                         <FormControl>
-                            <Input {...field} className="bg-white" placeholder="1.50" />
+                            <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" placeholder="1.50" />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-destructive-foreground dark:text-red-500"/>
                     </FormItem>
                 )}
             />
@@ -83,11 +83,11 @@ const DetailsSection = () => {
                 name="estimatedDeliveryTime"
                 render={({ field }) => (
                     <FormItem className="max-w-[25%]">
-                        <FormLabel>Estimated Delivery Time (minutes)</FormLabel>
+                        <FormLabel className=" dark:text-white">Estimated Delivery Time (minutes)</FormLabel>
                         <FormControl>
-                            <Input {...field} className="bg-white" placeholder="30" />
+                            <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" placeholder="30" />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-destructive-foreground dark:text-red-500"/>
                     </FormItem>
                 )}
             />

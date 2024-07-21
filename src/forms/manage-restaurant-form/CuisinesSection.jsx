@@ -15,8 +15,8 @@ const CuisinesSection = () => {
     return (
         <div className="space-y-2">
             <div>
-                <h2 className="text-2xl font-bold">Cuisines</h2>
-                <FormDescription>
+                <h2 className="text-2xl font-bold dark:text-white">Cuisines</h2>
+                <FormDescription className="text-muted-foreground dark:text-gray-400">
                     Select the cuisines that your restaurant serves
                 </FormDescription>
             </div>
@@ -30,7 +30,7 @@ const CuisinesSection = () => {
                                 <CuisineCheckbox key={cuisineItem} cuisine={cuisineItem} field={field} />
                             ))}
                         </div>
-                        <FormMessage />
+                        <FormMessage className="text-destructive-foreground dark:text-red-500"/>
                     </FormItem>
                 )}
             />
