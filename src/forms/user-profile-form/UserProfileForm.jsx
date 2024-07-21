@@ -75,7 +75,7 @@ const UserProfileForm = ({
                         <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input {...field} disabled className="bg-white dark:bg-gray-800 dark:text-white" />
+                                <Input {...field}  className="bg-white dark:bg-gray-800 dark:text-white" />
                             </FormControl>
                         </FormItem>
                     )}

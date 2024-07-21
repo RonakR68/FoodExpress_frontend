@@ -15,7 +15,7 @@ export const useGetMyUser = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include", // Include credentials (cookies)
+            credentials: "include",
         });
 
         if (!response.ok) {
@@ -34,7 +34,7 @@ export const useGetMyUser = () => {
     });
 
     if (error) {
-        toast.error(error.toString());
+        toast.error(error.toString(), { duration: 3000 });
     }
 
     return { currentUser, isLoading };
@@ -47,7 +47,7 @@ export const useCreateMyUser = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include", // Include credentials (cookies)
+            credentials: "include", 
             body: JSON.stringify(user),
         });
 
@@ -78,7 +78,7 @@ export const useUpdateMyUser = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include", // Include credentials (cookies)
+            credentials: "include",
             body: JSON.stringify(formData),
         });
 
@@ -98,11 +98,11 @@ export const useUpdateMyUser = () => {
     } = useMutation(updateMyUserRequest);
 
     if (isSuccess) {
-        toast.success("User Profile Updated!");
+        toast.success("User Profile Updated!", { duration: 3000 });
     }
 
     if (error) {
-        toast.error(error.toString());
+        toast.error(error.toString(), { duration: 3000 });
         reset();
     }
 

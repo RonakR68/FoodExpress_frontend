@@ -7,7 +7,7 @@ export const useGetMyOrders = () => {
     const getMyOrdersRequest = async () => {
         const response = await fetch(`${API_BASE_URL}/api/order`, {
             method: "GET",
-            credentials: 'include', // Include credentials (cookies)
+            credentials: 'include', 
         });
 
         if (!response.ok) {
@@ -60,7 +60,7 @@ export const useCreateCheckoutSession = () => {
     } = useMutation(createCheckoutSessionRequest);
 
     if (error) {
-        toast.error(error.toString());
+        toast.error(error.toString(), { duration: 3000 });
         reset();
     }
 
