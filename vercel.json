@@ -1,6 +1,0 @@
-{
-    "rewrites": [
-      { "source": "/api/(.*)", "destination": "food-express-api-psi.vercel.app/api/$1" }
-    ]
-  }
-  
