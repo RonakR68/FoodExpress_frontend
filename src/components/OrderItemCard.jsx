@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 
 const OrderItemCard = ({ order }) => {
     const { updateRestaurantStatus, isLoading } = useUpdateMyRestaurantOrder();
-    const [status, setStatus] = useState(order?.status || "");
+    const [status, setStatus] = useState(order.status);
 
     useEffect(() => {
         if (order?.status) {

@@ -47,11 +47,11 @@ export const useCreateMyRestaurant = () => {
     } = useMutation(createMyRestaurantRequest);
 
     if (isSuccess) {
-        toast.success("Restaurant created!", { duration: 3000 });
+        toast.success("Restaurant created!");
     }
 
     if (error) {
-        toast.error("Error while adding restaurant", { duration: 3000 });
+        toast.error("Error while adding restaurant");
     }
 
     return { createRestaurant, isLoading };
@@ -80,11 +80,11 @@ export const useUpdateMyRestaurant = () => {
     } = useMutation(updateRestaurantRequest);
 
     if (isSuccess) {
-        toast.success("Restaurant Updated", { duration: 3000 });
+        toast.success("Restaurant Updated");
     }
 
     if (error) {
-        toast.error("Unable to update restaurant", { duration: 3000 });
+        toast.error("Unable to update restaurant");
     }
 
     return { updateRestaurant, isLoading };
@@ -109,9 +109,7 @@ export const useGetMyRestaurantOrders = () => {
 
     const { data: orders, isLoading } = useQuery(
         "fetchMyRestaurantOrders",
-        getMyRestaurantOrdersRequest,{
-            refetchInterval: 5000,
-        }
+        getMyRestaurantOrdersRequest,
     );
 
     return { orders, isLoading };
@@ -148,11 +146,11 @@ export const useUpdateMyRestaurantOrder = () => {
     } = useMutation(updateMyRestaurantOrder);
 
     if (isSuccess) {
-        toast.success("Order updated", { duration: 3000 });
+        toast.success("Order updated");
     }
 
     if (isError) {
-        toast.error("Unable to update order", { duration: 3000 });
+        toast.error("Unable to update order");
         reset();
     }
 

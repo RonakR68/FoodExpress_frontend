@@ -17,7 +17,7 @@ export const useGetMyUser = () => {
             },
             credentials: "include",
         });
-
+        //console.log(response);
         if (!response.ok) {
             throw new Error("Failed to fetch user");
         }
@@ -34,7 +34,7 @@ export const useGetMyUser = () => {
     });
 
     if (error) {
-        toast.error(error.toString(), { duration: 3000 });
+        toast.error(error.toString());
     }
 
     return { currentUser, isLoading };
@@ -98,11 +98,11 @@ export const useUpdateMyUser = () => {
     } = useMutation(updateMyUserRequest);
 
     if (isSuccess) {
-        toast.success("User Profile Updated!", { duration: 3000 });
+        toast.success("User Profile Updated!");
     }
 
     if (error) {
-        toast.error(error.toString(), { duration: 3000 });
+        toast.error(error.toString());
         reset();
     }
 

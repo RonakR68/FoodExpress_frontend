@@ -60,7 +60,7 @@ export const useCreateCheckoutSession = () => {
     } = useMutation(createCheckoutSessionRequest);
 
     if (error) {
-        toast.error(error.toString(), { duration: 3000 });
+        toast.error(error.toString());
         reset();
     }
 
