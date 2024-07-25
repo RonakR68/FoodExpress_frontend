@@ -69,3 +69,42 @@ export const useCreateCheckoutSession = () => {
         isLoading,
     };
 };
+
+
+export const useSubmitReview = () => {
+    const submitReviewRequest = async (reviewData) => {
+        //console.log('order review api');
+        //console.log(reviewData);
+        const response = await fetch(`${API_BASE_URL}/api/order/review`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: 'include',
+            body: JSON.stringify(reviewData),
+        });
+
+        if (!response.ok) {
+            throw new Error("Error while submitting review");
+        }
+
+        return response.json();
+    };
+
+    const {
+        mutateAsync: submitReview,
+        isLoading,
+        error,
+        reset,
+    } = useMutation(submitReviewRequest);
+
+    if (error) {
+        toast.error(error.toString());
+        reset();
+    }
+
+    return {
+        submitReview,
+        isLoading,
+    };
+};

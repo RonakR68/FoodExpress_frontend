@@ -1,8 +1,15 @@
 import { Progress } from "./ui/progress";
 import { ORDER_STATUS } from "@/config/order-status-config";
-
+import { useState } from "react";
+import ReviewPopup from "@/components/ReviewPopup";
+import { useSubmitReview } from "@/api/OrderApi";
 
 const OrderStatusHeader = ({ order }) => {
+    const [showRating, setShowRating] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [rating, setRating] = useState(0);
+    const { submitReview } = useSubmitReview();
+
     const getExpectedDelivery = () => {
         const created = new Date(order.createdAt);
 
@@ -24,18 +31,70 @@ const OrderStatusHeader = ({ order }) => {
         );
     };
 
+    const handleRateOrderClick = () => {
+        setShowRating(true);
+        //console.log("Rate this order clicked");
+    };
+
+    const handleReviewSubmit = async ({ rating, review }) => {
+        // Submit the review
+        try {
+            await submitReview({
+                orderId: order._id,
+                rating,
+                comment: review,
+            });
+            //console.log("Submitted Review:", { rating, review });
+            setRating(rating);
+            setSubmitted(true);
+        } catch (error) {
+            console.error("Error submitting review:", error);
+        } finally {
+            setShowRating(false);
+        }
+
+
+    };
+
     return (
         <>
             <h1 className="text-4xl font-bold tracking-tighter flex flex-col gap-5 md:flex-row md:justify-between dark:text-gray-200">
-                <span> Order Status: {getOrderStatusInfo().label}</span>
-                <span> Expected by: {getExpectedDelivery()}</span>
+                <span>Order Status: {getOrderStatusInfo().label}</span>
+                {order.status === "delivered" ? (
+                    submitted ? (
+                        <div>
+                            <span className="text-blue-500 cursor-pointer">
+                                Rated:{" "}
+                                {[...Array(5)].map((_, index) => (
+                                    <span key={index} className={index < rating ? "text-yellow-500" : "text-gray-400"}>
+                                        ★
+                                    </span>
+                                ))}
+                            </span>
+                        </div>
+                    ) : (
+                        <span
+                            className="text-blue-500 cursor-pointer"
+                            onClick={handleRateOrderClick}
+                        >
+                            Rate this order
+                        </span>
+                    )
+                ) : (
+                    <span>Expected by: {getExpectedDelivery()}</span>
+                )}
             </h1>
             <Progress
                 className="animate-pulse"
                 value={getOrderStatusInfo().progressValue}
             />
+            {showRating && (
+                <ReviewPopup
+                    onClose={() => setShowRating(false)}
+                    onSubmit={handleReviewSubmit}
+                />
+            )}
         </>
     );
 };
-
 export default OrderStatusHeader;
