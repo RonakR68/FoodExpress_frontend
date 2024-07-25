@@ -19,6 +19,10 @@ const SORT_OPTIONS = [
         label: "Estimated delivery time",
         value: "estimatedDeliveryTime",
     },
+    {
+        label: "Rating",
+        value: "rating",
+    },
 ];
 
 const SortOptionDropdown = ({ onChange, sortOption }) => {

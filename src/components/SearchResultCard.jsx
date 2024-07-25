@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { AspectRatio } from "./ui/aspect-ratio";
-import { Banknote, Clock, Dot } from "lucide-react";
+import { Banknote, Clock, Dot, Star } from "lucide-react";
 
 
 const SearchResultCard = ({ restaurant }) => {
+    const rating = restaurant.rating || 0;
+    const reviewCount = restaurant.reviews?.length || 0;
+
     return (
         <Link
             to={`/detail/${restaurant._id}`}
@@ -36,6 +39,10 @@ const SearchResultCard = ({ restaurant }) => {
                         <div className="flex items-center gap-1">
                             <Banknote />
                             Delivery charges: INR {(restaurant.deliveryPrice / 100).toFixed(2)}
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <Star className="text-yellow-500" />
+                            Rating: {rating.toFixed(1)} ({reviewCount})
                         </div>
                     </div>
                 </div>

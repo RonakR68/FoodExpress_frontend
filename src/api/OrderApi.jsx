@@ -7,7 +7,7 @@ export const useGetMyOrders = () => {
     const getMyOrdersRequest = async () => {
         const response = await fetch(`${API_BASE_URL}/api/order`, {
             method: "GET",
-            credentials: 'include', 
+            credentials: 'include',
         });
 
         if (!response.ok) {
@@ -75,20 +75,27 @@ export const useSubmitReview = () => {
     const submitReviewRequest = async (reviewData) => {
         //console.log('order review api');
         //console.log(reviewData);
-        const response = await fetch(`${API_BASE_URL}/api/order/review`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: 'include',
-            body: JSON.stringify(reviewData),
-        });
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/order/review`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: 'include',
+                body: JSON.stringify(reviewData),
+            });
 
-        if (!response.ok) {
-            throw new Error("Error while submitting review");
+            if (!response.ok) {
+                // Attempt to extract the error message from the response
+                const errorData = await response.json();
+                const errorMessage = errorData.message || 'Error while submitting review';
+                throw new Error(errorMessage);
+            }
+
+            return response.json();
+        } catch (error) {
+            throw new Error(error.message || 'An error occurred');
         }
-
-        return response.json();
     };
 
     const {
@@ -99,7 +106,7 @@ export const useSubmitReview = () => {
     } = useMutation(submitReviewRequest);
 
     if (error) {
-        toast.error(error.toString());
+        toast.error(error.message);
         reset();
     }
 
