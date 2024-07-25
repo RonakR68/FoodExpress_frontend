@@ -3,6 +3,27 @@ import { Link } from "react-router-dom";
 
 const OrderStatusDetail = ({ order }) => {
     //console.log(order);
+    const formatDateTime = () => {
+        if (!order?.createdAt) return "N/A";
+
+        const orderDateTime = new Date(order.createdAt);
+
+        // Format date
+        const date = orderDateTime.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+
+        // Format time
+        const hours = orderDateTime.getHours();
+        const minutes = orderDateTime.getMinutes();
+        const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        const time = `${hours}:${paddedMinutes}`;
+
+        return `${date}, ${time}`;
+    };
+
     return (
         <div className="space-y-5">
             <div className="flex flex-col">
@@ -27,6 +48,10 @@ const OrderStatusDetail = ({ order }) => {
                         </li>
                     ))}
                 </ul>
+                <div className="mt-4">
+                    <span className="font-bold dark:text-gray-200">Date & Time:  </span>
+                    <span className="dark:text-gray-200">{formatDateTime()}</span>
+                </div>
             </div>
             <Separator />
             <div className="flex flex-col">

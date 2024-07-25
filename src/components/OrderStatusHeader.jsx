@@ -58,7 +58,7 @@ const OrderStatusHeader = ({ order }) => {
 
     return (
         <>
-            <h1 className="text-4xl font-bold tracking-tighter flex flex-col gap-5 md:flex-row md:justify-between dark:text-gray-200">
+            <h3 className="text-3xl font-bold tracking-tighter flex flex-col gap-5 md:flex-row md:justify-between dark:text-gray-200">
                 <span>Order Status: {getOrderStatusInfo().label}</span>
                 {order.status === "delivered" ? (
                     submitted ? (
@@ -83,7 +83,7 @@ const OrderStatusHeader = ({ order }) => {
                 ) : (
                     <span>Expected by: {getExpectedDelivery()}</span>
                 )}
-            </h1>
+            </h3>
             <Progress
                 className="animate-pulse"
                 value={getOrderStatusInfo().progressValue}

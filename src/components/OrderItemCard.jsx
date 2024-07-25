@@ -12,10 +12,13 @@ import {
 import { ORDER_STATUS } from "@/config/order-status-config";
 import { useUpdateMyRestaurantOrder } from "@/api/MyRestaurantApi";
 import { useEffect, useState } from "react";
+import SeeReviewPopup from "./SeeReviewPopup";
 
 const OrderItemCard = ({ order }) => {
+    //console.log(order);
     const { updateRestaurantStatus, isLoading } = useUpdateMyRestaurantOrder();
     const [status, setStatus] = useState(order.status);
+    const [isReviewPopupOpen, setReviewPopupOpen] = useState(false);
 
     useEffect(() => {
         if (order?.status) {
@@ -33,22 +36,32 @@ const OrderItemCard = ({ order }) => {
         }
     };
 
-    const getTime = () => {
+    const formatDateTime = () => {
         if (!order?.createdAt) return "N/A";
 
         const orderDateTime = new Date(order.createdAt);
 
+        // Format date
+        const date = orderDateTime.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+
+        // Format time
         const hours = orderDateTime.getHours();
         const minutes = orderDateTime.getMinutes();
-
         const paddedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        const time = `${hours}:${paddedMinutes}`;
 
-        return `${hours}:${paddedMinutes}`;
+        return `${date}, ${time}`;
     };
 
     if (!order) {
         return <div>Loading...</div>;
     }
+
+    const review = order.reviews?.[0];
 
     return (
         <Card>
@@ -67,8 +80,8 @@ const OrderItemCard = ({ order }) => {
                         </span>
                     </div>
                     <div>
-                        Time:
-                        <span className="ml-2 font-normal dark:text-gray-300">{getTime()}</span>
+                        Date & Time:
+                        <span className="ml-2 font-normal dark:text-gray-300">{formatDateTime()}</span>
                     </div>
                     <div>
                         Total Cost:
@@ -107,6 +120,24 @@ const OrderItemCard = ({ order }) => {
                         </SelectContent>
                     </Select>
                 </div>
+                {review && (
+                    <div className="mt-4">
+                        <div className="text-gray-700 dark:text-gray-300">
+                            <strong>Rating:</strong> {review.rating}
+                        </div>
+                        <button
+                            className="text-blue-500 hover:underline mt-1"
+                            onClick={() => setReviewPopupOpen(true)}
+                        >
+                            See Review
+                        </button>
+                        <SeeReviewPopup
+                            isOpen={isReviewPopupOpen}
+                            onClose={() => setReviewPopupOpen(false)}
+                            review={review}
+                        />
+                    </div>
+                )}
             </CardContent>
         </Card>
     );
