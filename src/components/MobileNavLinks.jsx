@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
+import { useAuth } from "../auth/AuthContext";
 
 const MobileNavLinks = () => {
-
+  const { logout } = useAuth();
   return (
     <>
       <Link
@@ -23,7 +24,7 @@ const MobileNavLinks = () => {
       >
         Your Profile
       </Link>
-      <Button className="flex items-center px-3 font-bold hover:bg-gray-500 dark:hover:bg-gray-600">
+      <Button onClick={() => logout()} className="flex items-center px-3 font-bold hover:bg-gray-500 dark:hover:bg-gray-600">
         Sign Out
       </Button>
     </>

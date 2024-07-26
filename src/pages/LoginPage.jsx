@@ -6,10 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const { login } = useAuth();
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -48,13 +50,25 @@ const LoginPage = () => {
                                 placeholder="Email"
                                 required
                             />
-                            <Input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Password"
-                                required
-                            />
+                            <div className="relative">
+                                <Input
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="Password"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                                    onMouseDown={() => setShowPassword(true)} // Show password on mouse down
+                                    onMouseUp={() => setShowPassword(false)} // Hide password on mouse up
+                                    onTouchStart={() => setShowPassword(true)} // Show password on touch start (for mobile)
+                                    onTouchEnd={() => setShowPassword(false)} // Hide password on touch end (for mobile)
+                                >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle eye icon */}
+                                </button>
+                            </div>
                             <Button type="submit" className="w-full">
                                 Login
                             </Button>
