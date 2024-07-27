@@ -7,7 +7,6 @@ export const useGetRestaurant = (restaurantId) => {
         const response = await fetch(
             `${API_BASE_URL}/api/restaurant/${restaurantId}`
         );
-
         if (!response.ok) {
             throw new Error("Failed to get restaurant");
         }
@@ -66,3 +65,21 @@ export const useSearchRestaurants = (
         refetch,
     };
 };
+
+export const useTopRatedRestaurants = (limit = 3) => {
+    const fetchTopRatedRestaurants = async () => {
+      const response = await fetch(`${API_BASE_URL}/api/restaurant/top-rated?limit=${limit}`);
+      //console.log(response);
+      if (!response.ok) {
+        throw new Error("Failed to fetch top-rated restaurants");
+      }
+      return response.json();
+    };
+  
+    const { data: topRatedRestaurants, isLoading, error } = useQuery(
+      ["topRatedRestaurants", limit],
+      fetchTopRatedRestaurants
+    );
+  
+    return { topRatedRestaurants, isLoading, error };
+  };
