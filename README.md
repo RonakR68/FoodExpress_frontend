@@ -36,7 +36,7 @@ FoodExpress is a food ordering and restaurant management web application. The ba
 - Node.js and npm installed on your machine
 - MongoDB instance (local or cloud-based)
 - Cloudinary account for image uploads
-- Backend server running (refer to [backend repository] (https://github.com/RonakR68/FoodExpress_backend))
+- Backend server running (refer to [backend repository](https://github.com/RonakR68/FoodExpress_backend))
 
 ### Installation
 
