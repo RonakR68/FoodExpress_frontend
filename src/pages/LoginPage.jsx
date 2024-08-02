@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import OAuth from '../components/OAuth';
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -72,13 +73,15 @@ const LoginPage = () => {
                             <Button type="submit" className="w-full">
                                 Login
                             </Button>
-                            <p className="text-center">
-                                Don't have an account?{" "}
-                                <Link to="/api/auth/register" className="text-red-500">
-                                    Sign Up
-                                </Link>
-                            </p>
+                            <OAuth />
                         </form>
+                        <p className="text-center mt-4">
+                            Don't have an account?{" "}
+                            <Link to="/api/auth/register" className="text-blue-500">
+                                Sign Up
+                            </Link>
+                        </p>
+
                     </CardContent>
                 </Card>
             </div>

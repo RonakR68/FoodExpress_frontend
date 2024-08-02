@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import OAuth from '../components/OAuth';
 
 const SignupPage = () => {
     const [email, setEmail] = useState("");
@@ -99,13 +100,15 @@ const SignupPage = () => {
                             <Button type="submit" className="w-full">
                                 Sign Up
                             </Button>
-                            <p className="text-center">
-                                Already have an account?{" "}
-                                <Link to="/api/auth/login" className="text-red-500">
-                                    Login
-                                </Link>
-                            </p>
+                            <OAuth />
                         </form>
+                        <p className="text-center mt-4">
+                            Already have an account?{" "}
+                            <Link to="/api/auth/login" className="text-blue-500">
+                                Login
+                            </Link>
+                        </p>
+
                     </CardContent>
                 </Card>
             </div>
