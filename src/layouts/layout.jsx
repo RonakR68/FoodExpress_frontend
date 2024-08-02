@@ -43,7 +43,7 @@ const Layout = ({ children, showHero = false }) => {
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-75 text-white p-4 flex justify-center items-center">
-                      <p className="text-sm text-center truncate">{restaurant.restaurantName} - {restaurant.city} - Rating: {restaurant.rating || 0}</p>
+                      <p className="text-sm text-center truncate">{restaurant.restaurantName} - {restaurant.city} - Rating: {(restaurant.rating || 0).toFixed(1)}</p>
                     </div>
                   </Link>
                 </CarouselItem>
