@@ -30,7 +30,7 @@ const SignupPage = () => {
             setError(null); // Clear error if signup succeeds
         } catch (error) {
             console.error("Signup error:", error);
-            setError("Signup failed, please try again");
+            setError("Signup Error");
         }
     };
 

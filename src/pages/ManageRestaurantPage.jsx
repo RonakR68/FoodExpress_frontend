@@ -16,8 +16,8 @@ const ManageRestaurantPage = () => {
     const { orders } = useGetMyRestaurantOrders();
     //console.log('orders');
     //console.log(orders);
-    //console.log('restaurant');
-    //console.log(restaurant);
+    // console.log('restaurant');
+    // console.log(restaurant);
     const isEditing = !!restaurant; // true if restaurant exists for user
 
     return (

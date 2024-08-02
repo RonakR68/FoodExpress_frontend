@@ -20,7 +20,7 @@ export const useGetMyRestaurant = () => {
         "fetchMyRestaurant",
         getMyRestaurantRequest
     );
-
+    //console.log(restaurant);
     return { restaurant, isLoading };
 };
 

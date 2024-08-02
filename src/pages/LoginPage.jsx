@@ -29,7 +29,7 @@ const LoginPage = () => {
             navigate(returnTo);
         } catch (error) {
             console.error("Login error:", error);
-            setError("Login failed, please try again");
+            setError("Login Error");
         }
     };
 
