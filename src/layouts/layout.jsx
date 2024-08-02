@@ -4,6 +4,9 @@ import Header from "@/components/Header";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { useTopRatedRestaurants } from "@/api/RestaurantApi";
 import Autoplay from "embla-carousel-autoplay";
+import { Link } from "react-router-dom";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Layout = ({ children, showHero = false }) => {
   const { topRatedRestaurants, isLoading } = useTopRatedRestaurants();
@@ -31,7 +34,9 @@ const Layout = ({ children, showHero = false }) => {
             <CarouselContent>
               {topRatedRestaurants.map((restaurant) => (
                 <CarouselItem key={restaurant._id} className="relative w-full h-[400px]">
-                  <a href={`/detail/${restaurant._id}`} className="block h-full relative">
+                  <Link
+                    to={`/detail/${restaurant._id}`}
+                  >
                     <img
                       src={restaurant.imageUrl}
                       alt={restaurant.restaurantName}
@@ -40,7 +45,7 @@ const Layout = ({ children, showHero = false }) => {
                     <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-75 text-white p-4 flex justify-center items-center">
                       <p className="text-sm text-center truncate">{restaurant.restaurantName} - {restaurant.city} - Rating: {restaurant.rating || 0}</p>
                     </div>
-                  </a>
+                  </Link>
                 </CarouselItem>
               ))}
             </CarouselContent>
