@@ -76,7 +76,7 @@ const OrderItemCard = ({ order }) => {
                     <div>
                         Delivery address:
                         <span className="ml-2 font-normal dark:text-gray-300">
-                            {order.deliveryDetails?.addressLine1 || "N/A"}, {order.deliveryDetails?.city || "N/A"}
+                            {order.deliveryDetails?.addressLine1 || ""}, {order.deliveryDetails?.city || ""}, {order.deliveryDetails?.pincode || ""}
                         </span>
                     </div>
                     <div>

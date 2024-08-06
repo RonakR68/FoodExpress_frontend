@@ -2,20 +2,20 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import LoadingButton from "./LoadingButton";
-import { Dialog, DialogContent, DialogTrigger, DialogTitle} from "./ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "./ui/dialog";
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import UserProfileForm from "@/forms/user-profile-form/UserProfileForm";
+import DeliveryDetails from "@/forms/user-profile-form/DeliveryDetails";
 import { useGetMyUser } from "@/api/MyUserApi";
 import { useAuth } from "@/auth/AuthContext";
 
-const CheckoutButton = ({ onCheckout, disabled, isLoading }) => {
-    const { isAuthenticated, isLoading: isAuthLoading, login } = useAuth();
+const CheckoutButton = ({ onCheckout, disabled, isLoading, orderSummary }) => {
+    const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
     const { pathname } = useLocation();
-    const { currentUser, isLoading: isGetUserLoading } = useGetMyUser();
+    const { currentUser, isLoading : isUserLoading } = useGetMyUser();
     const navigate = useNavigate();
 
     const onLogin = async () => {
-        navigate('/api/auth/login',{state: {returnTo: pathname}});
+        navigate('/api/auth/login', { state: { returnTo: pathname } });
     };
 
     if (!isAuthenticated) {
@@ -30,6 +30,10 @@ const CheckoutButton = ({ onCheckout, disabled, isLoading }) => {
         return <LoadingButton />;
     }
 
+    const name = currentUser.name;
+    const email = currentUser.email;
+    const defaultAddress = currentUser.addresses.find(address => address.isDefault);
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -41,12 +45,12 @@ const CheckoutButton = ({ onCheckout, disabled, isLoading }) => {
                 <VisuallyHidden>
                     <DialogTitle>Confirm Delivery Details</DialogTitle>
                 </VisuallyHidden>
-                <UserProfileForm
-                    currentUser={currentUser}
-                    onSave={onCheckout}
-                    isLoading={isGetUserLoading}
-                    title="Confirm Delivery Details"
-                    buttonText="AutoPay and Place Your Order"
+                <DeliveryDetails
+                    name={name}
+                    email={email}
+                    address={defaultAddress}
+                    orderSummary={orderSummary}
+                    onConfirm={() => onCheckout({name, email, address: defaultAddress})}
                 />
             </DialogContent>
         </Dialog>

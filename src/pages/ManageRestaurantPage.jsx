@@ -22,6 +22,7 @@ const ManageRestaurantPage = () => {
     // console.log(restaurant);
     useEffect(() => {
         if (orders) {
+            //console.log(orders);
             setRealTimeOrders(orders);
         }
     }, [orders]);

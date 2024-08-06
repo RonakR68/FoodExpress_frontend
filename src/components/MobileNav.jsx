@@ -11,10 +11,17 @@ import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { useAuth } from "../auth/AuthContext"; // Import the custom auth hook
 import MobileNavLinks from "./MobileNavLinks";
+import { useNavigate } from "react-router-dom";
 
 const MobileNav = () => {
     const { isAuthenticated, login, user } = useAuth(); // Use custom auth hook
     //console.log(user?.name);
+    const navigate = useNavigate(); // Initialize navigate
+
+    const handleSignInClick = () => {
+        navigate("/api/auth/login"); // Redirect to login page
+    };
+
     return (
         <Sheet>
             <SheetTrigger>
@@ -37,7 +44,7 @@ const MobileNav = () => {
                         <MobileNavLinks />
                     ) : (
                         <Button
-                            onClick={() => login()}
+                            onClick={handleSignInClick}
                             className="flex-1 font-bold bg-red-500 dark:bg-red-500"
                         >
                             Sign In

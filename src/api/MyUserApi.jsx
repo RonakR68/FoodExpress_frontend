@@ -73,6 +73,7 @@ export const useCreateMyUser = () => {
 
 export const useUpdateMyUser = () => {
     const updateMyUserRequest = async (formData) => {
+        //console.log(formData);
         const response = await fetch(`${API_BASE_URL}/api/my/user`, {
             method: "PUT",
             headers: {

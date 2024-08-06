@@ -5,14 +5,17 @@ import RestaurantInfo from "@/components/RestaurantInfo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardFooter } from "@/components/ui/card";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import CheckoutButton from "@/components/CheckoutButton";
 import { useCreateCheckoutSession } from "@/api/OrderApi";
 
 
 const DetailPage = () => {
     const { restaurantId } = useParams();
+    const navigate = useNavigate();
     const { restaurant, isLoading } = useGetRestaurant(restaurantId);
+    //console.log('detail page');
+    //console.log(restaurant);
     const { createCheckoutSession, isLoading: isCheckoutLoading } = useCreateCheckoutSession();
     const [cartItems, setCartItems] = useState(() => {
         const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
@@ -110,6 +113,7 @@ const DetailPage = () => {
             return;
         }
         //console.log("on Check out");
+        //console.log(userFormData);
         const checkoutData = {
             cartItems: cartItems.map((cartItem) => ({
                 menuItemId: cartItem._id,
@@ -119,11 +123,15 @@ const DetailPage = () => {
             restaurantId: restaurant._id,
             deliveryDetails: {
                 name: userFormData.name,
-                addressLine1: userFormData.addressLine1,
-                addressLine2: userFormData.addressLine2,
-                city: userFormData.city,
-                country: userFormData.country,
                 email: userFormData.email,
+                addressLine1: userFormData.address.addressLine1,
+                addressLine2: userFormData.address.addressLine2,
+                city: userFormData.address.city,
+                state: userFormData.address.state,
+                pincode: userFormData.address.pincode,
+                //country: userFormData.address.country,
+                
+
             },
         };
 
@@ -135,7 +143,7 @@ const DetailPage = () => {
                 // Clear cart items after successful order placement
                 setCartItems([]);
                 sessionStorage.removeItem(`cartItems-${restaurantId}`);
-                window.location.href = "/";
+                navigate("/order-status");
             } else {
                 // Handle case where order creation was not successful
                 console.error("Order creation failed:", data.message);
@@ -146,9 +154,28 @@ const DetailPage = () => {
 
     };
 
+    const getTotalCost = () => {
+        const totalInPence = cartItems.reduce(
+            (total, cartItem) => total + cartItem.price * cartItem.quantity,
+            0
+        );
+
+        const totalWithDelivery = totalInPence + restaurant.deliveryPrice;
+
+        return (totalWithDelivery / 100).toFixed(2);
+    };
+
     if (isLoading || !restaurant) {
         return "Loading...";
     }
+
+    const orderSummary = {
+        restaurantName: restaurant.restaurantName,
+        city: restaurant.city,
+        cartItems,
+        deliveryPrice: restaurant.deliveryPrice,
+        totalCost: getTotalCost(),
+    };
 
     return (
         <div className="flex flex-col gap-10">
@@ -192,6 +219,7 @@ const DetailPage = () => {
                                 disabled={cartItems.length === 0}
                                 onCheckout={onCheckout}
                                 isLoading={isCheckoutLoading}
+                                orderSummary={orderSummary}
                             />
                         </CardFooter>
                     </Card>

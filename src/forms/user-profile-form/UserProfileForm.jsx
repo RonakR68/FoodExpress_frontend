@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -11,19 +11,30 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { AiOutlineEdit } from 'react-icons/ai';
+import { FaTrash } from 'react-icons/fa';
+
+const addressSchema = z.object({
+    name: z.string().optional(),
+    addressLine1: z.string().min(1, "Address Line 1 is required"),
+    addressLine2: z.string().optional(),
+    city: z.string().min(1, "City is required"),
+    state: z.string().min(1, "State is required"),
+    pincode: z.string().min(1, "Pincode is required"),
+    isDefault: z.boolean().optional(),
+});
 
 const formSchema = z.object({
     email: z.string().optional(),
     name: z.string().min(1, "Name is required"),
-    addressLine1: z.string().min(1, "Address Line 1 is required"),
-    addressLine2: z.string().min(1, "Address Line 2 is required"),
-    city: z.string().min(1, "City is required"),
-    country: z.string().min(1, "Country is required"),
+    addresses: z.array(addressSchema).min(1, "At least one address is required"),
+    defaultAddress: z.string().optional(),
 });
-
 
 const UserProfileForm = ({
     onSave,
@@ -37,31 +48,86 @@ const UserProfileForm = ({
         defaultValues: {
             email: "",
             name: "",
-            addressLine1: "",
-            addressLine2: "",
-            city: "",
-            country: "",
+            addresses: [],
+            defaultAddress: "",
         },
     });
 
+    const { fields, append, remove } = useFieldArray({
+        control: form.control,
+        name: "addresses",
+    });
+
+    const [expanded, setExpanded] = useState(fields.map(() => false));
+    const [placeholder, setPlaceholder] = useState("Select Address");
 
     useEffect(() => {
         if (currentUser) {
+            const addresses = currentUser.addresses || [];
+            const defaultAddress = addresses.find(address => address.isDefault)?.name || addresses[0]?.name || "";
+
             form.reset({
                 email: currentUser.email || "",
                 name: currentUser.name || "",
-                addressLine1: currentUser.addressLine1 || "",
-                addressLine2: currentUser.addressLine2 || "",
-                city: currentUser.city || "",
-                country: currentUser.country || "",
+                addresses: addresses,
+                defaultAddress: defaultAddress,
             });
+
+            if (defaultAddress) {
+                setPlaceholder(defaultAddress);
+            } else {
+                setPlaceholder("Select Address");
+            }
+
+            setExpanded(addresses.map(() => false));
         }
     }, [currentUser, form]);
+
+    const handleAddAddress = () => {
+        const newAddress = { addressLine1: "", addressLine2: "", city: "", state: "", pincode: "", name: "", isDefault: fields.length === 0 };
+        append(newAddress);
+        setExpanded([...expanded, true]);
+    };
+
+    const handleToggleExpand = (index) => {
+        setExpanded(expanded.map((exp, idx) => idx === index ? !exp : exp));
+    };
+
+    const handleDefaultAddressChange = (value) => {
+        form.setValue('defaultAddress', value);
+    };
+
+    const transformData = (data) => {
+        const addresses = data.addresses || [];
+        const hasDefault = addresses.some(address => address.isDefault);
+
+        // Ensure at least one address is marked as default
+        if (!hasDefault && addresses.length === 1) {
+            //console.log("setting isDefault as true");
+            addresses[0].isDefault = true;
+        }
+        return {
+            ...data,
+            addresses: addresses.map(address => ({
+                ...address,
+                isDefault: (addresses.length === 1) || (address.name === data.defaultAddress),
+            })),
+        };
+    };
+
+    const handleSubmit = async (formData) => {
+        //console.log('formdata');
+        //console.log(formData);
+        const transformedData = transformData(formData);
+        //console.log('transform data');
+        //console.log(transformedData);
+        await onSave(transformedData);
+    };
 
     return (
         <Form {...form}>
             <form
-                onSubmit={form.handleSubmit(onSave)}
+                onSubmit={form.handleSubmit(handleSubmit)}
                 className="space-y-4 bg-gray-50 dark:bg-gray-600 rounded-lg md:p-10 text-gray-900 dark:text-gray-50"
             >
                 <div>
@@ -75,7 +141,7 @@ const UserProfileForm = ({
                         <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input {...field}  className="bg-white dark:bg-gray-800 dark:text-white" />
+                                <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
                             </FormControl>
                         </FormItem>
                     )}
@@ -88,67 +154,164 @@ const UserProfileForm = ({
                         <FormItem>
                             <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <Input {...field} value={field.value || ""} className="bg-white dark:bg-gray-800 dark:text-white" />
+                                <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
-                <div className="flex flex-col md:flex-row gap-4">
-                    <FormField
-                        control={form.control}
-                        name="addressLine1"
-                        render={({ field }) => (
-                            <FormItem className="flex-1">
-                                <FormLabel>Address Line 1</FormLabel>
-                                <FormControl>
-                                    <Input {...field} value={field.value || ""} className="bg-white dark:bg-gray-800 dark:text-white" />
-                                </FormControl>
-                                <FormMessage className="text-red-500 dark:text-red-500"/>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="addressLine2"
-                        render={({ field }) => (
-                            <FormItem className="flex-1">
-                                <FormLabel>Address Line 2</FormLabel>
-                                <FormControl>
-                                    <Input {...field} value={field.value || ""} className="bg-white dark:bg-gray-800 dark:text-white" />
-                                </FormControl>
-                                <FormMessage className="text-red-500 dark:text-red-500"/>
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="city"
-                        render={({ field }) => (
-                            <FormItem className="flex-1">
-                                <FormLabel>City</FormLabel>
-                                <FormControl>
-                                    <Input {...field} value={field.value || ""} className="bg-white dark:bg-gray-800 dark:text-white" />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="country"
-                        render={({ field }) => (
-                            <FormItem className="flex-1">
-                                <FormLabel>Country</FormLabel>
-                                <FormControl>
-                                    <Input {...field} value={field.value || ""} className="bg-white dark:bg-gray-800 dark:text-white" />
-                                </FormControl>
-                                <FormMessage className="text-red-500 dark:text-red-500"/>
-                            </FormItem>
-                        )}
-                    />
+                {fields.length > 0 && (<FormField
+                    control={form.control}
+                    name="defaultAddress"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Default Address</FormLabel>
+                            <FormControl>
+                                <Select value={field.value} onValueChange={handleDefaultAddressChange} className="bg-white dark:bg-gray-800 dark:text-white">
+                                    <SelectTrigger>
+                                        <SelectValue placeholder={placeholder} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {fields.map((address, index) => (
+                                            <SelectItem key={index} value={address.name || `Address ${index + 1}`}>
+                                                {address.name || `Address ${index + 1}`}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                        </FormItem>
+                    )}
+                />
+                )}
+
+                <div>
+                    <h3 className="text-xl font-semibold">Manage Addresses</h3>
+                    {fields.length === 0 && (
+                        <Button type="button" onClick={handleAddAddress} className="bg-green-500 dark:bg-green-500">
+                            Add Address
+                        </Button>
+                    )}
+                    {fields.map((address, index) => (
+                        <div key={index} className={`border p-4 rounded-lg mb-4`}>
+                            <div className="flex justify-between items-center">
+                                <h4 className="font-semibold">{address.name || `Address ${index + 1}`}</h4>
+                                <div className="flex items-center space-x-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => handleToggleExpand(index)}
+                                        className="text-blue-500"
+                                    >
+                                        {expanded[index] ? (
+                                            <FaChevronUp className="h-4 w-4" />
+                                        ) : (
+                                            <FaChevronDown className="h-4 w-4" />
+                                        )}
+                                    </button>
+                                    <Button
+                                        type="button"
+                                        onClick={() => remove(index)}
+                                        className={`bg-red-500 dark:bg-red-500 ${fields.length <= 1 ? 'cursor-not-allowed opacity-50' : ''}`}
+                                        disabled={fields.length <= 1}
+                                    >
+                                        <FaTrash className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                            </div>
+                            {expanded[index] && (
+                                <>
+                                    <FormField
+                                        control={form.control}
+                                        name={`addresses.${index}.name`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Address Name
+                                                    <AiOutlineEdit className="h-4 w-4 inline ml-2 cursor-pointer" />
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name={`addresses.${index}.addressLine1`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Address Line 1</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name={`addresses.${index}.addressLine2`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Address Line 2</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
+                                                </FormControl>
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name={`addresses.${index}.city`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>City</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name={`addresses.${index}.state`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>State</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name={`addresses.${index}.pincode`}
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Pincode</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </>
+                            )}
+                        </div>
+                    ))}
+                    {fields.length > 0 && (
+                        <Button type="button" onClick={handleAddAddress} className="bg-green-500 dark:bg-green-500">
+                            Add Address
+                        </Button>
+                    )}
                 </div>
+                <FormMessage className="text-red-500">{form.formState.errors.addresses && form.formState.errors.addresses.message}</FormMessage>
                 {isLoading ? (
                     <LoadingButton />
                 ) : (
