@@ -25,7 +25,7 @@ const addressSchema = z.object({
     addressLine2: z.string().optional(),
     city: z.string().min(1, "City is required"),
     state: z.string().min(1, "State is required"),
-    pincode: z.string().min(1, "Pincode is required"),
+    pincode: z.string().regex(/^\d{6}$/, "Pincode must be exactly 6 digits"),
     isDefault: z.boolean().optional(),
 });
 
@@ -212,8 +212,8 @@ const UserProfileForm = ({
                                     <Button
                                         type="button"
                                         onClick={() => remove(index)}
-                                        className={`bg-red-500 dark:bg-red-500 ${fields.length <= 1 ? 'cursor-not-allowed opacity-50' : ''}`}
-                                        disabled={fields.length <= 1}
+                                        className={`bg-red-500 dark:bg-red-500 ${fields.length <= 1 || address.isDefault ? 'cursor-not-allowed opacity-50' : ''}`}
+                                        disabled={fields.length <= 1 || address.isDefault}
                                     >
                                         <FaTrash className="h-4 w-4" />
                                     </Button>

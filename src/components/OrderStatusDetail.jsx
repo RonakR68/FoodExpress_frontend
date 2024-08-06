@@ -30,7 +30,7 @@ const OrderStatusDetail = ({ order }) => {
                 <span className="font-bold dark:text-gray-200">Delivering to:</span>
                 <span className="dark:text-gray-200">{order.deliveryDetails.name}</span>
                 <span className="dark:text-gray-200">
-                    {order.deliveryDetails.addressLine1}, {order.deliveryDetails.city}
+                    {order.deliveryDetails.addressLine1}, {order.deliveryDetails.city}, {order.deliveryDetails.pincode}
                 </span>
             </div>
             <div className="flex flex-col">

@@ -19,9 +19,13 @@ const formSchema = z
         city: z.string({
             required_error: "City is required",
         }),
-        // country: z.string({
-        //   required_error: "Country is required",
-        // }),
+        addressLine1: z.string({
+            required_error: "Address Line 1 is required",
+        }),
+        state: z.string({
+            required_error: "State is required",
+        }),
+        pincode: z.string().regex(/^\d{6}$/, "Pincode must be exactly 6 digits"),
         deliveryPrice: z.coerce.number({
             required_error: "Delivery price is required",
             invalid_type_error: "Must be a valid number",
@@ -53,6 +57,9 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
         defaultValues: {
             restaurantName: "",
             city: "",
+            addressLine1: "",
+            state: "",
+            pincode: "",
             deliveryPrice: 0,
             estimatedDeliveryTime: 0,
             cuisines: [],
@@ -68,6 +75,9 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
             form.reset({
                 restaurantName: "",
                 city: "",
+                addressLine1: "",
+                state: "",
+                pincode: "",
                 deliveryPrice: 0,
                 estimatedDeliveryTime: 0,
                 cuisines: [],
@@ -88,11 +98,12 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
             price: parseInt((item.price / 100).toFixed(2)),
         }));
 
-
-
         form.reset({
             restaurantName: restaurant.restaurantName || "",
             city: restaurant.city || "",
+            addressLine1: restaurant.addressLine1 || "",
+            state: restaurant.state || "",
+            pincode: restaurant.pincode || "",
             deliveryPrice: deliveryPriceFormatted || 0,
             estimatedDeliveryTime: restaurant.estimatedDeliveryTime || 0,
             cuisines: restaurant.cuisines || [],
@@ -107,6 +118,9 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
 
         formData.append("restaurantName", formDataJson.restaurantName);
         formData.append("city", formDataJson.city);
+        formData.append("addressLine1", formDataJson.addressLine1);
+        formData.append("state", formDataJson.state);
+        formData.append("pincode", formDataJson.pincode);
         //formData.append("country", formDataJson.country);
 
         formData.append(

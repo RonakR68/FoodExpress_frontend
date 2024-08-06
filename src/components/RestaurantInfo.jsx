@@ -15,7 +15,7 @@ const RestaurantInfo = ({ restaurant }) => {
                     {restaurant.restaurantName}
                 </CardTitle>
                 <CardDescription className="dark:text-gray-300">
-                    {restaurant.city}
+                    {restaurant.addressLine1}, {restaurant.city}, {restaurant.state}, {restaurant.pincode}
                 </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2 dark:text-gray-300">

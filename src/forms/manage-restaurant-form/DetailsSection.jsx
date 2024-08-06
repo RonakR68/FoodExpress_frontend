@@ -30,10 +30,25 @@ const DetailsSection = () => {
                         <FormControl>
                             <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
                         </FormControl>
-                        <FormMessage className="text-destructive-foreground dark:text-red-500"/>
+                        <FormMessage className="text-destructive-foreground dark:text-red-500" />
                     </FormItem>
                 )}
             />
+            <div className="flex gap-4">
+                <FormField
+                    control={control}
+                    name="addressLine1"
+                    render={({ field }) => (
+                        <FormItem className="flex-1">
+                            <FormLabel className="dark:text-white">Address Line 1</FormLabel>
+                            <FormControl>
+                                <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
+                            </FormControl>
+                            <FormMessage className="text-destructive-foreground dark:text-red-500" />
+                        </FormItem>
+                    )}
+                />
+            </div>
             <div className="flex gap-4">
                 <FormField
                     control={control}
@@ -44,26 +59,38 @@ const DetailsSection = () => {
                             <FormControl>
                                 <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
                             </FormControl>
-                            <FormMessage className="text-destructive-foreground dark:text-red-500"/>
+                            <FormMessage className="text-destructive-foreground dark:text-red-500" />
                         </FormItem>
                     )}
                 />
-                {/* 
-        <FormField
-          control={control}
-          name="country"
-          render={({ field }) => (
-            <FormItem className="flex-1">
-              <FormLabel>Country</FormLabel>
-              <FormControl>
-                <Input {...field} className="bg-white" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        */}
+
+                <FormField
+                    control={control}
+                    name="state"
+                    render={({ field }) => (
+                        <FormItem className="flex-1">
+                            <FormLabel className="dark:text-white">State</FormLabel>
+                            <FormControl>
+                                <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
+                            </FormControl>
+                            <FormMessage className="text-destructive-foreground dark:text-red-500" />
+                        </FormItem>
+                    )}
+                />
             </div>
+            <FormField
+                control={control}
+                name="pincode"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="dark:text-white">Pincode</FormLabel>
+                        <FormControl>
+                            <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" />
+                        </FormControl>
+                        <FormMessage className="text-destructive-foreground dark:text-red-500" />
+                    </FormItem>
+                )}
+            />
 
             <FormField
                 control={control}
@@ -74,7 +101,7 @@ const DetailsSection = () => {
                         <FormControl>
                             <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" placeholder="1.50" />
                         </FormControl>
-                        <FormMessage className="text-destructive-foreground dark:text-red-500"/>
+                        <FormMessage className="text-destructive-foreground dark:text-red-500" />
                     </FormItem>
                 )}
             />
@@ -87,7 +114,7 @@ const DetailsSection = () => {
                         <FormControl>
                             <Input {...field} className="bg-white dark:bg-gray-800 dark:text-white" placeholder="30" />
                         </FormControl>
-                        <FormMessage className="text-destructive-foreground dark:text-red-500"/>
+                        <FormMessage className="text-destructive-foreground dark:text-red-500" />
                     </FormItem>
                 )}
             />

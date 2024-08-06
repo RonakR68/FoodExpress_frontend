@@ -19,13 +19,13 @@ const DeliveryDetails = ({ name, email, address, orderSummary, onConfirm }) => {
                     <div className="font-semibold">Items:</div>
                     {orderSummary.cartItems.map((item) => (
                         <div key={item._id}>
-                            {item.name} - {item.quantity} x INR {(item.price / 100).toFixed(2)}
+                            {item.name} - {item.quantity} x {(item.price / 100).toFixed(2)}
                         </div>
                     ))}
                 </div>
                 <div className="my-2 border-t border-gray-300 dark:border-gray-600" />
                 <div>
-                    <span className="font-semibold">Delivery Price: </span> INR {(orderSummary.deliveryPrice / 100).toFixed(2)}
+                    <span className="font-semibold">Delivery Price: </span> {(orderSummary.deliveryPrice / 100).toFixed(2)}
                 </div>
                 <div className="my-2 border-t border-gray-300 dark:border-gray-600" />
                 <div>
