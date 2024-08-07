@@ -41,7 +41,7 @@ const UserProfileForm = ({
     isLoading,
     currentUser,
     title = "User Profile",
-    buttonText = "Submit",
+    buttonText = "Save Changes",
 }) => {
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -122,6 +122,7 @@ const UserProfileForm = ({
         //console.log('transform data');
         //console.log(transformedData);
         await onSave(transformedData);
+        window.location.reload();
     };
 
     return (
@@ -306,7 +307,7 @@ const UserProfileForm = ({
                         </div>
                     ))}
                     {fields.length > 0 && (
-                        <Button type="button" onClick={handleAddAddress} className="bg-green-500 dark:bg-green-500">
+                        <Button type="button" onClick={handleAddAddress} className="bg-green-700 dark:bg-green-700">
                             Add Address
                         </Button>
                     )}
@@ -315,7 +316,7 @@ const UserProfileForm = ({
                 {isLoading ? (
                     <LoadingButton />
                 ) : (
-                    <Button type="submit" className="bg-red-500 dark:bg-red-500">
+                    <Button type="submit" className="bg-blue-500 dark:bg-blue-500">
                         {buttonText}
                     </Button>
                 )}

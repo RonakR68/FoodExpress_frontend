@@ -9,14 +9,17 @@ import { Link } from "react-router-dom";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { useAuth } from "../auth/AuthContext";
+import { useGetMyUser } from "@/api/MyUserApi";
 
 const UsernameMenu = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
+  const user = useGetMyUser();
+  //console.log(user.currentUser)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center px-3 font-bold hover:text-red-500 gap-2">
         <CircleUserRound className="text-red-500" />
-        {user?.name}
+        {user?.currentUser?.name}
       </DropdownMenuTrigger>
       <DropdownMenuContent>
 

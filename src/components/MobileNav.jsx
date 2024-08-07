@@ -12,10 +12,12 @@ import { Button } from "./ui/button";
 import { useAuth } from "../auth/AuthContext"; // Import the custom auth hook
 import MobileNavLinks from "./MobileNavLinks";
 import { useNavigate } from "react-router-dom";
+import { useGetMyUser } from "@/api/MyUserApi";
 
 const MobileNav = () => {
-    const { isAuthenticated, login, user } = useAuth(); // Use custom auth hook
-    //console.log(user?.name);
+    const { isAuthenticated } = useAuth(); // Use custom auth hook
+    const { currentUser } = useGetMyUser();
+    //console.log(currentUser?.name);
     const navigate = useNavigate(); // Initialize navigate
 
     const handleSignInClick = () => {
@@ -32,7 +34,7 @@ const MobileNav = () => {
                     {isAuthenticated ? (
                         <span className="flex items-center font-bold gap-2">
                             <CircleUserRound className="text-red-500 dark:text-red-500" />
-                            {user?.name}
+                            {currentUser?.name}
                         </span>
                     ) : (
                         <span className="text-black dark:text-white">Food Express</span>
