@@ -53,9 +53,9 @@ const OrderStatusPage = () => {
         return "Loading...";
     }
 
-    if (!realTimeOrders || realTimeOrders.length === 0) {
-        return "No orders found";
-    }
+    // if (!realTimeOrders || realTimeOrders.length === 0) {
+    //     return "No orders found";
+    // }
 
 
     return (
@@ -87,7 +87,7 @@ const OrderStatusPage = () => {
                     </select>
                 </div>
             </div>
-            {realTimeOrders.map((order) => (
+            {realTimeOrders && realTimeOrders.length > 0 ? (realTimeOrders.map((order) => (
                 <div key={order._id} className="space-y-10 bg-gray-50 p-10 rounded-lg dark:bg-gray-700">
                     <OrderStatusHeader order={order} />
                     <div className="grid gap-10 md:grid-cols-2">
@@ -105,7 +105,8 @@ const OrderStatusPage = () => {
                         </AspectRatio>
                     </div>
                 </div>
-            ))}
+            ))
+        ) : (<div>No orders found</div>)}
         </div>
     );
 };

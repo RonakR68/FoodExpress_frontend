@@ -74,9 +74,9 @@ const ManageRestaurantPage = () => {
     const isEditing = !!restaurant; // true if restaurant exists for user
 
     return (
-        <Tabs defaultValue="orders">
+        <Tabs defaultValue={isEditing ? "orders" : "manage-restaurant"}>
             <TabsList>
-                <TabsTrigger value="orders">Orders</TabsTrigger>
+                {isEditing && <TabsTrigger value="orders">Orders</TabsTrigger>}
                 <TabsTrigger value="manage-restaurant">Manage Restaurant</TabsTrigger>
             </TabsList>
             <TabsContent

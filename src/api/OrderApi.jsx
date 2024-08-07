@@ -18,13 +18,6 @@ export const useGetMyOrders = (sort, status) => {
 
         const orders = await response.json();
 
-        // Add a default rating of 0 for pending orders
-        orders.forEach(order => {
-            if (!order.reviews || order.reviews.length === 0) {
-                order.reviews = [{ rating: 0 }];
-            }
-        });
-
         return orders;;
     };
 
