@@ -10,7 +10,7 @@ const MobileNavLinks = () => {
         to="/order-status"
         className="flex items-center font-bold hover:text-red-500 dark:hover:text-red-500 dark:bg-gray-900 bg-white"
       >
-        Order Status
+        My Orders
       </Link>
       <Link
         to="/manage-restaurant"
@@ -22,7 +22,7 @@ const MobileNavLinks = () => {
         to="/user-profile"
         className="flex items-center font-bold hover:text-red-500 dark:hover:text-red-500 dark:bg-gray-900 bg-white"
       >
-        Your Profile
+        My Profile
       </Link>
       <Button onClick={() => logout()} className="flex items-center px-3 font-bold hover:bg-gray-500 dark:hover:bg-gray-600">
         Sign Out

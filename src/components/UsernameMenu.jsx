@@ -31,7 +31,7 @@ const UsernameMenu = () => {
 
         <DropdownMenuItem>
           <Link to="/user-profile" className="font-bold hover:text-red-500">
-            Your Profile
+            My Profile
           </Link>
         </DropdownMenuItem>
 

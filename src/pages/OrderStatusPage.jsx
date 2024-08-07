@@ -7,13 +7,19 @@ import { Link } from "react-router-dom";
 import io from "socket.io-client";
 
 const OrderStatusPage = () => {
-    const { orders, isLoading } = useGetMyOrders();
+    const [sort, setSort] = useState('latest');
+    const [status, setStatus] = useState('');
+    const { orders, isLoading, refetch } = useGetMyOrders(sort, status);
     const [realTimeOrders, setRealTimeOrders] = useState(orders || []);
     useEffect(() => {
         if (orders) {
             setRealTimeOrders(orders);
         }
     }, [orders]);
+
+    useEffect(() => {
+        refetch();
+    }, [sort, status, refetch]);
 
     useEffect(() => {
         const socket = io(import.meta.env.VITE_API_BASE_URL);
@@ -34,6 +40,15 @@ const OrderStatusPage = () => {
         };
     }, []);
 
+    const handleSortChange = (e) => {
+        setSort(e.target.value);
+    };
+
+    const handleStatusChange = (e) => {
+        setStatus(e.target.value);
+    };
+
+
     if (isLoading) {
         return "Loading...";
     }
@@ -45,6 +60,33 @@ const OrderStatusPage = () => {
 
     return (
         <div className="space-y-10">
+            <div className="flex justify-between items-center">
+                <div>
+                    <label htmlFor="sort">Sort by: </label>
+                    <select
+                        id="sort"
+                        value={sort}
+                        onChange={handleSortChange}
+                        className="dark:bg-gray-700 dark:text-gray-200"
+                    >
+                        <option value="latest">Latest</option>
+                        <option value="rating">Rating</option>
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="status">Filter by status: </label>
+                    <select
+                        id="status"
+                        value={status}
+                        onChange={handleStatusChange}
+                        className="dark:bg-gray-700 dark:text-gray-200"
+                    >
+                        <option value="">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="delivered">Delivered</option>
+                    </select>
+                </div>
+            </div>
             {realTimeOrders.map((order) => (
                 <div key={order._id} className="space-y-10 bg-gray-50 p-10 rounded-lg dark:bg-gray-700">
                     <OrderStatusHeader order={order} />
@@ -61,12 +103,10 @@ const OrderStatusPage = () => {
                                 />
                             </Link>
                         </AspectRatio>
-
                     </div>
                 </div>
-            ))
-            }
-        </div >
+            ))}
+        </div>
     );
 };
 

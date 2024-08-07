@@ -1,11 +1,13 @@
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export const useGetMyOrders = () => {
+export const useGetMyOrders = (sort, status) => {
     const getMyOrdersRequest = async () => {
-        const response = await fetch(`${API_BASE_URL}/api/order`, {
+        const query = new URLSearchParams({ sort, status });
+        const response = await fetch(`${API_BASE_URL}/api/order?${query}`, {
             method: "GET",
             credentials: 'include',
         });
@@ -14,18 +16,27 @@ export const useGetMyOrders = () => {
             throw new Error("Failed to get orders");
         }
 
-        return response.json();
+        const orders = await response.json();
+
+        // Add a default rating of 0 for pending orders
+        orders.forEach(order => {
+            if (!order.reviews || order.reviews.length === 0) {
+                order.reviews = [{ rating: 0 }];
+            }
+        });
+
+        return orders;;
     };
 
-    const { data: orders, isLoading } = useQuery(
-        "fetchMyOrders",
+    const { data: orders, isLoading, refetch } = useQuery(
+        ["fetchMyOrders", sort, status],
         getMyOrdersRequest,
-        // {
-        //     refetchInterval: 5000, // 5 seconds
-        // }
+        {
+            keepPreviousData: true,
+        }
     );
 
-    return { orders, isLoading };
+    return { orders, isLoading, refetch };
 };
 
 export const useCreateCheckoutSession = () => {
