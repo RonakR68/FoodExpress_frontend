@@ -1,4 +1,6 @@
 import { useQuery } from "react-query";
+import { useAuth } from "@/auth/AuthContext";
+import { useGetMyUser } from "./MyUserApi";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -66,20 +68,40 @@ export const useSearchRestaurants = (
     };
 };
 
-export const useTopRatedRestaurants = (limit = 3) => {
+export const useTopRatedRestaurants = (limit = 5) => {
+    const { isAuthenticated } = useAuth();
+    const { currentUser } = useGetMyUser();
+
     const fetchTopRatedRestaurants = async () => {
-      const response = await fetch(`${API_BASE_URL}/api/restaurant/top-rated?limit=${limit}`);
-      //console.log(response);
-      if (!response.ok) {
-        throw new Error("Failed to fetch top-rated restaurants");
-      }
-      return response.json();
+        if (isAuthenticated && currentUser) {
+            const response = await fetch(`${API_BASE_URL}/api/restaurant/top-rated?limit=${limit}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "user-id": currentUser._id,
+                },
+                credentials: "include",
+            });
+            if (!response.ok) {
+                throw new Error("Failed to fetch top-rated restaurants");
+            }
+            return response.json();
+        } else {
+            const response = await fetch(`${API_BASE_URL}/api/restaurant/top-rated?limit=${limit}`);
+            if (!response.ok) {
+                throw new Error("Failed to fetch top-rated restaurants");
+            }
+            return response.json();
+        }
     };
-  
+
     const { data: topRatedRestaurants, isLoading, error } = useQuery(
-      ["topRatedRestaurants", limit],
-      fetchTopRatedRestaurants
+        ["topRatedRestaurants", limit, isAuthenticated, currentUser],
+        fetchTopRatedRestaurants,
+        {
+            enabled: isAuthenticated ? !!currentUser : true, // Ensure the query only runs when authenticated and currentUser is available, or when not authenticated
+        }
     );
-  
+
     return { topRatedRestaurants, isLoading, error };
-  };
+};
