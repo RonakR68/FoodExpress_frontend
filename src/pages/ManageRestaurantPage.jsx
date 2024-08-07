@@ -14,7 +14,9 @@ const ManageRestaurantPage = () => {
     const { createRestaurant, isLoading: isCreateLoading } = useCreateMyRestaurant();
     const { restaurant } = useGetMyRestaurant();
     const { updateRestaurant, isLoading: isUpdateLoading } = useUpdateMyRestaurant();
-    const { orders, isLoading: isOrdersLoading } = useGetMyRestaurantOrders();
+    const [sort, setSort] = useState('latest');
+    const [status, setStatus] = useState('');
+    const { orders, isLoading: isOrdersLoading, refetch } = useGetMyRestaurantOrders(sort, status);
     const [realTimeOrders, setRealTimeOrders] = useState(orders || []);
     //console.log('orders');
     //console.log(orders);
@@ -26,6 +28,10 @@ const ManageRestaurantPage = () => {
             setRealTimeOrders(orders);
         }
     }, [orders]);
+
+    useEffect(() => {
+        refetch();
+    }, [sort, status, refetch]);
 
     useEffect(() => {
         const socket = io(import.meta.env.VITE_API_BASE_URL);
@@ -81,7 +87,35 @@ const ManageRestaurantPage = () => {
             </TabsList>
             <TabsContent
                 value="orders"
-                className="space-y-5 bg-gray-50 p-10 rounded-lg dark:bg-gray-700 ">
+                className="space-y-5 bg-gray-100 p-10 rounded-lg dark:bg-gray-700">
+                <div className="flex justify-between items-center">
+                    <div>
+                        <label htmlFor="sort">Sort by: </label>
+                        <select
+                            id="sort"
+                            value={sort}
+                            onChange={(e) => setSort(e.target.value)}
+                            className="bg-gray-300 dark:bg-gray-900 dark:text-gray-200"
+                        >
+                            <option value="latest">Latest</option>
+                            <option value="rating">Rating</option>
+                            <option value="totalCost">Total Cost</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="status">Filter by status: </label>
+                        <select
+                            id="status"
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}
+                            className="bg-gray-300 dark:bg-gray-900 dark:text-gray-200"
+                        >
+                            <option value="">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="delivered">Delivered</option>
+                        </select>
+                    </div>
+                </div>
                 <h2 className="text-2xl font-bold">{realTimeOrders?.length} orders</h2>
                 {realTimeOrders?.map((order) => (
                     <OrderItemCard key={order._id} order={order} />

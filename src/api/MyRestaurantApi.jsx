@@ -90,9 +90,9 @@ export const useUpdateMyRestaurant = () => {
     return { updateRestaurant, isLoading };
 };
 
-export const useGetMyRestaurantOrders = () => {
+export const useGetMyRestaurantOrders = (sort, status) => {
     const getMyRestaurantOrdersRequest = async () => {
-        const response = await fetch(`${API_BASE_URL}/api/my/restaurant/order`, {
+        const response = await fetch(`${API_BASE_URL}/api/my/restaurant/order?sort=${sort}&status=${status}`, {
             method: "GET",
             credentials: 'include',
             headers: {
@@ -107,15 +107,15 @@ export const useGetMyRestaurantOrders = () => {
         return response.json();
     };
 
-    const { data: orders, isLoading } = useQuery(
-        "fetchMyRestaurantOrders",
+    const { data: orders, isLoading, refetch } = useQuery(
+        ["fetchMyRestaurantOrders", sort, status],
         getMyRestaurantOrdersRequest,
         // {
         //     refetchInterval: 5000, // 5 seconds
         // }
     );
 
-    return { orders, isLoading };
+    return { orders, isLoading, refetch };
 };
 
 export const useUpdateMyRestaurantOrder = () => {
