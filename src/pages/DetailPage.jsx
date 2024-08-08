@@ -4,8 +4,8 @@ import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardFooter } from "@/components/ui/card";
-import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import CheckoutButton from "@/components/CheckoutButton";
 import { useCreateCheckoutSession } from "@/api/OrderApi";
 
@@ -13,6 +13,7 @@ import { useCreateCheckoutSession } from "@/api/OrderApi";
 const DetailPage = () => {
     const { restaurantId } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     const { restaurant, isLoading } = useGetRestaurant(restaurantId);
     //console.log('detail page');
     //console.log(restaurant);
@@ -21,6 +22,28 @@ const DetailPage = () => {
         const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
         return storedCartItems ? JSON.parse(storedCartItems) : [];
     });
+
+    useEffect(() => {
+        // If repeat order data is passed, add items to cart
+        if (restaurant && location.state?.repeatOrderData) {
+            //console.log('repeat order');
+            const { repeatOrderData } = location.state;
+            // Clear existing cart
+            setCartItems([]);
+            // Add items from the repeat order data
+            repeatOrderData.cartItems.forEach((item) => {
+                const menuItem = restaurant.menuItems.find(menuItem => menuItem.name === item.name);
+
+                // If the item exists in the current menu, add it to the cart
+                if (menuItem) {
+                    for (let i = 0; i < item.quantity; i++) {
+                        addToCart(menuItem);
+                    }
+
+                }
+            });
+        }
+    }, [location.state, restaurant]);
 
     //check and add item if it is not in cart
     //update the quantity if item is already in cart
@@ -130,7 +153,7 @@ const DetailPage = () => {
                 state: userFormData.address.state,
                 pincode: userFormData.address.pincode,
                 //country: userFormData.address.country,
-                
+
 
             },
         };

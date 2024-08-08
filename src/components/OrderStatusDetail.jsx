@@ -1,8 +1,9 @@
 import { Separator } from "./ui/separator";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const OrderStatusDetail = ({ order }) => {
     //console.log(order);
+    const navigate = useNavigate();
     const formatDateTime = () => {
         if (!order?.createdAt) return "N/A";
 
@@ -22,6 +23,20 @@ const OrderStatusDetail = ({ order }) => {
         const time = `${hours}:${paddedMinutes}`;
 
         return `${date}, ${time}`;
+    };
+
+    const repeatOrder = () => {
+        const repeatOrderData = {
+            restaurantId: order.restaurant._id,
+            cartItems: order.cartItems.map((item) => ({
+                menuItemId: item.menuItemId,
+                name: item.name,
+                quantity: item.quantity,
+            })),
+        };
+
+        // Navigate to restaurant detail page with order data
+        navigate(`/detail/${order.restaurant._id}`, { state: { repeatOrderData } });
     };
 
     return (
@@ -57,6 +72,14 @@ const OrderStatusDetail = ({ order }) => {
             <div className="flex flex-col">
                 <span className="font-bold dark:text-gray-200">Total</span>
                 <span className="dark:text-gray-200">INR {(order.totalAmount / 100).toFixed(2)}</span>
+            </div>
+            <div>
+                <button
+                    onClick={repeatOrder}
+                    className="text-blue-500 hover:underline dark:text-blue-400"
+                >
+                    Repeat Order
+                </button>
             </div>
         </div>
     );
