@@ -9,6 +9,7 @@ import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 import SearchPage from "./pages/SearchPage";
 import DetailPage from "./pages/DetailPage";
 import OrderStatusPage from "./pages/OrderStatusPage";
+import CartEmptyPage from "./pages/CartEmptyPage";
 
 const AppRoutes = () => {
     return (
@@ -81,6 +82,8 @@ const AppRoutes = () => {
                         </Layout>
                     }
                 />
+
+                <Route path="/cart-empty" element={<CartEmptyPage />} />
 
             </Route>
 
