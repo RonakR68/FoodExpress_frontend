@@ -19,6 +19,28 @@ const ManageRestaurantPage = () => {
     const { orders, isLoading: isOrdersLoading, refetch } = useGetMyRestaurantOrders(sort, status);
     const [realTimeOrders, setRealTimeOrders] = useState(orders || []);
 
+    const applySortAndFilter = (orders, sort, status) => {
+        let filteredOrders = orders;
+
+        // Apply filter by status
+        if (status === "pending") {
+            filteredOrders = filteredOrders.filter(order => order.status !== "delivered");
+        } else if (status === "delivered") {
+            filteredOrders = filteredOrders.filter(order => order.status === "delivered");
+        }
+
+        // Apply sort
+        if (sort === "latest") {
+            filteredOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        } else if (sort === "rating") {
+            filteredOrders.sort((a, b) => b.rating - a.rating);
+        } else if (sort === "totalCost") {
+            filteredOrders.sort((a, b) => b.totalCost - a.totalCost);
+        }
+
+        return filteredOrders;
+    };
+
     useEffect(() => {
         if (orders) {
             setRealTimeOrders(orders);
@@ -80,27 +102,6 @@ const ManageRestaurantPage = () => {
 
     const isEditing = !!restaurant; // true if restaurant exists for user
 
-    const applySortAndFilter = (orders, sort, status) => {
-        let filteredOrders = orders;
-
-        // Apply filter by status
-        if (status === "pending") {
-            filteredOrders = filteredOrders.filter(order => order.status !== "delivered");
-        } else if (status === "delivered") {
-            filteredOrders = filteredOrders.filter(order => order.status === "delivered");
-        }
-
-        // Apply sort
-        if (sort === "latest") {
-            filteredOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        } else if (sort === "rating") {
-            filteredOrders.sort((a, b) => b.rating - a.rating);
-        } else if (sort === "totalCost") {
-            filteredOrders.sort((a, b) => b.totalCost - a.totalCost);
-        }
-
-        return filteredOrders;
-    };
 
     return (
         <Tabs defaultValue={isEditing ? "orders" : "manage-restaurant"}>

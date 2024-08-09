@@ -4,49 +4,22 @@ import UsernameMenu from "./UsernameMenu";
 import { useAuth } from "../auth/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart } from 'react-icons/fa';
+import { useCart } from "./CartContext.jsx";
 
 const MainNav = () => {
     const { isAuthenticated } = useAuth();
-    const [cartItems, setCartItems] = useState([]);
+    const { cartItems } = useCart();
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
         navigate("/api/auth/login");
     };
 
-    const updateCartItems = () => {
-        if (isAuthenticated) {
-            const cartData = Object.keys(sessionStorage)
-                .filter((key) => key.startsWith('cartItems-'))
-                .map((key) => JSON.parse(sessionStorage.getItem(key)));
-
-            setCartItems(cartData.flat());
-        }
-    };
-
-    useEffect(() => {
-        updateCartItems();
-
-        // Event listener for changes in sessionStorage
-        const handleStorageChange = (e) => {
-            if (e.storageArea === sessionStorage) {
-                updateCartItems();
-            }
-        };
-
-        window.addEventListener('storage', handleStorageChange);
-
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-        };
-    }, [isAuthenticated]);
-
     const handleCartClick = () => {
         if (cartItems.length > 0) {
             const restaurantId = Object.keys(sessionStorage)
                 .find((key) => key.startsWith('cartItems-'))
-                .split('-')[1]; // Extract the restaurantId from the key
-
+                .split('-')[1];
             navigate(`/detail/${restaurantId}`);
         } else {
             navigate('/cart-empty');

@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import CheckoutButton from "@/components/CheckoutButton";
 import { useCreateCheckoutSession } from "@/api/OrderApi";
-
+import { useCart } from "@/components/CartContext";
 
 const DetailPage = () => {
     const { restaurantId } = useParams();
@@ -18,119 +18,23 @@ const DetailPage = () => {
     //console.log('detail page');
     //console.log(restaurant);
     const { createCheckoutSession, isLoading: isCheckoutLoading } = useCreateCheckoutSession();
-    const [cartItems, setCartItems] = useState(() => {
-        const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
-        return storedCartItems ? JSON.parse(storedCartItems) : [];
-    });
+    const { cartItems, addToCart, removeFromCart, clearCart } = useCart();
 
     useEffect(() => {
-        // If repeat order data is passed, add items to cart
         if (restaurant && location.state?.repeatOrderData) {
-            //console.log('repeat order');
             const { repeatOrderData } = location.state;
-            // Clear existing cart
-            setCartItems([]);
-            // Add items from the repeat order data
+            clearCart();
             repeatOrderData.cartItems.forEach((item) => {
                 const menuItem = restaurant.menuItems.find(menuItem => menuItem.name === item.name);
-
-                // If the item exists in the current menu, add it to the cart
                 if (menuItem) {
                     for (let i = 0; i < item.quantity; i++) {
                         addToCart(menuItem);
                     }
-
                 }
             });
             navigate(`/detail/${restaurantId}`, { replace: true, state: {} });
         }
     }, [location.state, restaurant]);
-
-    //check and add item if it is not in cart
-    //update the quantity if item is already in cart
-    const addToCart = (menuItem) => {
-        setCartItems((prevCartItems) => {
-            const existingCartItem = prevCartItems.find(
-                (cartItem) => cartItem._id === menuItem._id
-            );
-
-            let updatedCartItems;
-
-            if (existingCartItem) {
-                updatedCartItems = prevCartItems.map((cartItem) =>
-                    cartItem._id === menuItem._id
-                        ? { ...cartItem, quantity: cartItem.quantity + 1 }
-                        : cartItem
-                );
-            } else {
-                updatedCartItems = [
-                    ...prevCartItems,
-                    {
-                        _id: menuItem._id,
-                        name: menuItem.name,
-                        price: menuItem.price,
-                        quantity: 1,
-                    },
-                ];
-            }
-
-            //store user cart items in local storage
-            sessionStorage.setItem(
-                `cartItems-${restaurantId}`,
-                JSON.stringify(updatedCartItems)
-            );
-
-            return updatedCartItems;
-        });
-    };
-
-    const removeFromCart = (menuItem) => {
-        setCartItems((prevCartItems) => {
-            const existingCartItem = prevCartItems.find(
-                (cartItem) => cartItem._id === menuItem._id
-            );
-
-            if (!existingCartItem) {
-                return prevCartItems;
-            }
-
-            let updatedCartItems;
-
-            if (existingCartItem.quantity > 1) {
-                updatedCartItems = prevCartItems.map((cartItem) =>
-                    cartItem._id === menuItem._id
-                        ? { ...cartItem, quantity: cartItem.quantity - 1 }
-                        : cartItem
-                );
-            } else {
-                updatedCartItems = prevCartItems.filter(
-                    (cartItem) => cartItem._id !== menuItem._id
-                );
-            }
-
-            sessionStorage.setItem(
-                `cartItems-${restaurantId}`,
-                JSON.stringify(updatedCartItems)
-            );
-
-            return updatedCartItems;
-        });
-    };
-
-    const clearCartItem = (cartItem) => {
-        setCartItems((prevCartItems) => {
-            const updatedCartItems = prevCartItems.filter(
-                (item) => cartItem._id !== item._id
-            );
-
-            sessionStorage.setItem(
-                `cartItems-${restaurantId}`,
-                JSON.stringify(updatedCartItems)
-            );
-
-            return updatedCartItems;
-        });
-    };
 
     const onCheckout = async (userFormData) => {
         if (!restaurant) {
@@ -154,8 +58,6 @@ const DetailPage = () => {
                 state: userFormData.address.state,
                 pincode: userFormData.address.pincode,
                 //country: userFormData.address.country,
-
-
             },
         };
 
@@ -165,8 +67,7 @@ const DetailPage = () => {
             // Check if the order was created successfully
             if (data.message === "Order created successfully") {
                 // Clear cart items after successful order placement
-                setCartItems([]);
-                sessionStorage.removeItem(`cartItems-${restaurantId}`);
+                clearCart();
                 navigate("/order-status");
             } else {
                 // Handle case where order creation was not successful
@@ -214,10 +115,7 @@ const DetailPage = () => {
                     <RestaurantInfo restaurant={restaurant} />
                     <span className="text-2xl font-bold tracking-tight">Menu</span>
                     {restaurant.menuItems.map((menuItem) => {
-                        const cartItem = cartItems.find(
-                            (item) => item._id === menuItem._id
-                        );
-                        const cartItemQuantity = cartItem ? cartItem.quantity : 0;
+                        const cartItemQuantity = cartItems.find((item) => item._id === menuItem._id)?.quantity || 0;
                         return (
                             <MenuItem
                                 key={menuItem._id}
@@ -236,7 +134,7 @@ const DetailPage = () => {
                             restaurant={restaurant}
                             cartItems={cartItems}
                             removeFromCart={(cartItem) => removeFromCart(cartItem)}
-                            clearCartItem={(cartItem) => clearCartItem(cartItem)}
+                            clearCartItem={(cartItem) => removeFromCart(cartItem)}
                         />
                         <CardFooter>
                             <CheckoutButton

@@ -8,6 +8,7 @@ import { AuthProvider } from "./auth/AuthContext";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider"
+import { CartProvider } from "./components/CartContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,8 +26,10 @@ if (rootElement) {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-              <AppRoutes />
-              <Toaster visibleToasts={1} position="top-right" richColors />
+              <CartProvider>
+                <AppRoutes />
+                <Toaster visibleToasts={1} position="top-right" richColors />
+              </CartProvider>
             </ThemeProvider>
           </AuthProvider>
         </QueryClientProvider>
