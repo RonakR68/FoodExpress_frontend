@@ -147,7 +147,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
         }
 
         onSave(formData);
-        //window.location.reload();
+        window.location.reload();
     };
 
     return (

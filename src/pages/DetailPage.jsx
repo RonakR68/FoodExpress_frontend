@@ -18,7 +18,7 @@ const DetailPage = () => {
     //console.log('detail page');
     //console.log(restaurant);
     const { createCheckoutSession, isLoading: isCheckoutLoading } = useCreateCheckoutSession();
-    const { cartItems, addToCart, removeFromCart, clearCart } = useCart();
+    const { cartItems, addToCart, removeFromCart, clearCart, clearCartItem } = useCart();
 
     useEffect(() => {
         if (restaurant && location.state?.repeatOrderData) {
@@ -134,7 +134,7 @@ const DetailPage = () => {
                             restaurant={restaurant}
                             cartItems={cartItems}
                             removeFromCart={(cartItem) => removeFromCart(cartItem)}
-                            clearCartItem={(cartItem) => removeFromCart(cartItem)}
+                            clearCartItem={(cartItem) => clearCartItem(cartItem)}
                         />
                         <CardFooter>
                             <CheckoutButton

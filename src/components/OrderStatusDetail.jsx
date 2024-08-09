@@ -1,5 +1,6 @@
 import { Separator } from "./ui/separator";
 import { Link, useNavigate } from "react-router-dom";
+import { Badge } from "./ui/badge";
 
 const OrderStatusDetail = ({ order }) => {
     //console.log(order);
@@ -59,7 +60,10 @@ const OrderStatusDetail = ({ order }) => {
                 <ul className="dark:text-gray-200">
                     {order.cartItems.map((item) => (
                         <li key={item.menuItemId}>
-                            {item.name} x {item.quantity}
+                            <Badge variant="outline" className="mr-2 dark:text-gray-300">
+                                {item.quantity}
+                            </Badge>
+                            {item.name}
                         </li>
                     ))}
                 </ul>
@@ -78,7 +82,7 @@ const OrderStatusDetail = ({ order }) => {
                     onClick={repeatOrder}
                     className="text-blue-500 hover:underline dark:text-blue-400"
                 >
-                    Repeat Order
+                    Order Again
                 </button>
             </div>
         </div>
