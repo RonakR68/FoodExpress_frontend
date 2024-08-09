@@ -42,6 +42,7 @@ const DetailPage = () => {
 
                 }
             });
+            navigate(`/detail/${restaurantId}`, { replace: true, state: {} });
         }
     }, [location.state, restaurant]);
 
