@@ -7,16 +7,22 @@ const MobileNavLinks = () => {
   const { logout } = useAuth();
   const { cartItems } = useCart();
   const navigate = useNavigate();
+
   const handleCartClick = () => {
     if (cartItems.length > 0) {
-      const restaurantId = Object.keys(sessionStorage)
-        .find((key) => key.startsWith('cartItems-'))
-        .split('-')[1];
-      navigate(`/detail/${restaurantId}`);
+      
+      const restaurantId = sessionStorage.getItem('cart-restaurantId');
+
+      if (restaurantId) {
+        navigate(`/detail/${restaurantId}`);
+      } else {
+        navigate('/cart-empty');
+      }
     } else {
       navigate('/cart-empty');
     }
   };
+
   return (
     <>
       <nav className="flex flex-col gap-4">

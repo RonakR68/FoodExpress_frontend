@@ -9,6 +9,8 @@ import { useCart } from "./CartContext.jsx";
 const MainNav = () => {
     const { isAuthenticated } = useAuth();
     const { cartItems } = useCart();
+    // console.log('cart: ');
+    // console.log(cartItems);
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
@@ -16,11 +18,15 @@ const MainNav = () => {
     };
 
     const handleCartClick = () => {
+        console.log('handle cart click')
+        const restaurantId = sessionStorage.getItem('cart-restaurantId');
+        console.log('restid: ' + restaurantId)
         if (cartItems.length > 0) {
-            const restaurantId = Object.keys(sessionStorage)
-                .find((key) => key.startsWith('cartItems-'))
-                .split('-')[1];
-            navigate(`/detail/${restaurantId}`);
+            if (cartItems.length > 0 && restaurantId) {
+                navigate(`/detail/${restaurantId}`);
+            } else {
+                navigate('/cart-empty');
+            }
         } else {
             navigate('/cart-empty');
         }

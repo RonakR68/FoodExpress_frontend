@@ -121,7 +121,7 @@ const DetailPage = () => {
                                 key={menuItem._id}
                                 menuItem={menuItem}
                                 cartItemQuantity={cartItemQuantity}
-                                addToCart={() => addToCart(menuItem)}
+                                addToCart={() => addToCart(menuItem, restaurantId)}
                                 removeFromCart={() => removeFromCart(menuItem)}
                             />
                         );

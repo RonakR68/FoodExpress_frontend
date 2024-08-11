@@ -12,7 +12,7 @@ export const CartProvider = ({ children }) => {
         sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
     }, [cartItems]);
 
-    const addToCart = (item) => {
+    const addToCart = (item, restaurantId) => {
         setCartItems((prev) => {
             const existingItem = prev.find((i) => i._id === item._id);
             if (existingItem) {
@@ -25,6 +25,7 @@ export const CartProvider = ({ children }) => {
                 return [...prev, { ...item, quantity: 1 }];
             }
         });
+        sessionStorage.setItem('cart-restaurantId', restaurantId);
     };
 
     const removeFromCart = (item) => {
