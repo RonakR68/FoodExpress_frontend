@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 
 const DeliveryDetails = ({ name, email, address, orderSummary, onConfirm }) => {
     return (
@@ -12,28 +13,39 @@ const DeliveryDetails = ({ name, email, address, orderSummary, onConfirm }) => {
                 </div>
                 <div className="my-2 border-t border-gray-300 dark:border-gray-600" />
                 <div>
-                    <span className="font-semibold">City: </span> {orderSummary.city}
+                    <span className="font-semibold">City: </span>  {orderSummary.city}
                 </div>
                 <div className="my-2 border-t border-gray-300 dark:border-gray-600" />
-                <div>
-                    <div className="font-semibold">Items:</div>
+                <div className="font-semibold mb-2">Items</div>
+                <div className="space-y-2">
                     {orderSummary.cartItems.map((item) => (
-                        <div key={item._id}>
-                            {item.name} - {item.quantity} x {(item.price / 100).toFixed(2)}
+                        <div
+                            key={item._id}
+                            className="flex items-center justify-between"
+                        >
+                            <div className="flex items-center">
+                                <Badge variant="outline" className="mr-2 dark:text-gray-300">
+                                    {item.quantity}
+                                </Badge>
+                                {item.name}
+                            </div>
+                            <div>{(item.price / 100).toFixed(2)}</div>
                         </div>
                     ))}
                 </div>
                 <div className="my-2 border-t border-gray-300 dark:border-gray-600" />
-                <div>
-                    <span className="font-semibold">Delivery Price: </span> {(orderSummary.deliveryPrice / 100).toFixed(2)}
+                <div className="mt-4 flex justify-between font-semibold">
+                    <span>Delivery Charges</span>
+                    <span>{(orderSummary.deliveryPrice / 100).toFixed(2)}</span>
                 </div>
                 <div className="my-2 border-t border-gray-300 dark:border-gray-600" />
-                <div>
-                    <span className="font-semibold">Total: </span> INR {orderSummary.totalCost}
+                <div className="mt-2 flex justify-between font-semibold text-lg">
+                    <span>Total</span>
+                    <span>{orderSummary.totalCost}</span>
                 </div>
             </div>
             {/* Delivery Address Section */}
-            <div className="text-xl font-bold">Delivery Details</div>
+            <div className="text-xl font-bold">Delivery Address</div>
             <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-md">
                 {address ? (
                     <div>

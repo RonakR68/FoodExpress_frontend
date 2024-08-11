@@ -17,6 +17,8 @@ const OrderStatusHeader = ({ order }) => {
         }
     }, [order]);
 
+    
+
     const getExpectedDelivery = () => {
         const created = new Date(order.createdAt);
 
@@ -43,13 +45,14 @@ const OrderStatusHeader = ({ order }) => {
         //console.log("Rate this order clicked");
     };
 
-    const handleReviewSubmit = async ({ rating, review }) => {
+    const handleReviewSubmit = async ({ rating, review, itemReviews }) => {
         // Submit the review
         try {
             await submitReview({
                 orderId: order._id,
                 rating,
                 comment: review,
+                itemReviews
             });
             //console.log("Submitted Review:", { rating, review });
             setRating(rating);
@@ -97,6 +100,7 @@ const OrderStatusHeader = ({ order }) => {
             />
             {showRating && (
                 <ReviewPopup
+                    order={order}
                     onClose={() => setShowRating(false)}
                     onSubmit={handleReviewSubmit}
                 />

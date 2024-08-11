@@ -8,7 +8,12 @@ const MenuItem = ({ menuItem, cartItemQuantity, addToCart, removeFromCart }) => 
                 <CardTitle className="text-black dark:text-white">{menuItem.name}</CardTitle>
             </CardHeader>
             <CardContent className="flex items-center justify-between font-bold text-black dark:text-white">
-                <span>INR {(menuItem.price / 100).toFixed(2)}</span>
+                <div className="flex flex-col gap-4">
+                    <span>INR {(menuItem.price / 100).toFixed(2)}</span>
+                    <div className="font-bold text-black dark:text-white">
+                        Rated: {menuItem.itemRating.toFixed(1)} / 5
+                    </div>
+                </div>
                 <div className="flex items-center gap-2">
                     <Button
                         onClick={removeFromCart}

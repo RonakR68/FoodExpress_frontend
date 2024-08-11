@@ -62,6 +62,7 @@ const OrderItemCard = ({ order }) => {
     }
 
     const review = order.reviews?.[0];
+    console.log(review);
 
     return (
         <Card>
@@ -93,15 +94,33 @@ const OrderItemCard = ({ order }) => {
                 <Separator />
             </CardHeader>
             <CardContent className="flex flex-col gap-6">
-                <div className="flex flex-col gap-2">
-                    {order.cartItems?.map((cartItem) => (
-                        <span key={cartItem.menuItemId}>
-                            <Badge variant="outline" className="mr-2 dark:text-gray-300">
-                                {cartItem.quantity}
-                            </Badge>
-                            <span className="dark:text-gray-300">{cartItem.name}</span>
-                        </span>
-                    ))}
+            <div className="flex flex-col gap-2">
+                    {order.cartItems?.map((cartItem) => {
+                        // Find the review for the current item
+                        const itemReview = review?.itemReviews.find(
+                            (itemReview) => itemReview.menuItemId.toString() === cartItem.menuItemId
+                        );
+                        // Get the rating or show "N/A" if there is no rating
+                        const rating = itemReview ? itemReview.rating : "N/A";
+                        // Determine if "Rated:" should be shown
+                        const shouldShowRating = review && review.itemReviews.length > 0;
+                        
+                        return (
+                            <div key={cartItem.menuItemId} className="flex justify-between items-center">
+                                <div>
+                                    <Badge variant="outline" className="mr-2 dark:text-gray-300">
+                                        {cartItem.quantity}
+                                    </Badge>
+                                    {cartItem.name}
+                                </div>
+                                {shouldShowRating && (
+                                    <div className="dark:text-gray-300">
+                                        Rated: {rating === "N/A" ? "N/A" : `${rating} / 5`}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
                 <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="status" className="dark:text-gray-300">What is the status of this order?</Label>

@@ -1,15 +1,32 @@
 import { useState } from "react";
 
-const ReviewPopup = ({ onClose, onSubmit }) => {
+const ReviewPopup = ({ order, onClose, onSubmit }) => {
     const [rating, setRating] = useState(0);
     const [review, setReview] = useState("");
+    const [itemRatings, setItemRatings] = useState(
+        order.cartItems.map((item) => ({
+            menuItemId: item.menuItemId,
+            name: item.name,
+            rating: 0, // initial rating for each item
+        }))
+    );
 
     const handleStarClick = (index) => {
         setRating(index + 1); // Rating is 1-indexed
     };
 
+    const handleItemStarClick = (menuItemId, index) => {
+        setItemRatings((prev) =>
+            prev.map((item) =>
+                item.menuItemId === menuItemId
+                    ? { ...item, rating: index + 1 }
+                    : item
+            )
+        );
+    };
+
     const handleSubmit = () => {
-        onSubmit({ rating, review });
+        onSubmit({ rating, review, itemReviews: itemRatings.filter((item) => item.rating > 0), });
         onClose();
     };
 
@@ -24,6 +41,24 @@ const ReviewPopup = ({ onClose, onSubmit }) => {
                     >
                         X
                     </button>
+                </div>
+                <div className="space-y-4">
+                    {itemRatings.map((item) => (
+                        <div key={item.menuItemId} className="flex justify-between items-center">
+                            <span className="text-lg dark:text-gray-200">{item.name}</span>
+                            <div className="flex">
+                                {[...Array(5)].map((_, index) => (
+                                    <span
+                                        key={index}
+                                        className={`cursor-pointer text-2xl ${index < item.rating ? "text-yellow-500" : "text-gray-400 dark:text-gray-600"}`}
+                                        onClick={() => handleItemStarClick(item.menuItemId, index)}
+                                    >
+                                        ★
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
                 <div className="flex">
                     {[...Array(5)].map((_, index) => (
