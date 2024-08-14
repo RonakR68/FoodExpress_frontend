@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from 'react-query';
+import { useCart } from "@/components/CartContext";
 
 axios.defaults.withCredentials = true;
 const AuthContext = createContext();
@@ -17,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { clearCart }  = useCart();
 
   useEffect(() => {
     localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
@@ -38,6 +40,7 @@ export const AuthProvider = ({ children }) => {
         queryClient.invalidateQueries('fetchMyRestaurant');
         queryClient.invalidateQueries('fetchMyRestaurantOrders');
         navigate("/");
+        //window.location.reload();
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -60,6 +63,7 @@ export const AuthProvider = ({ children }) => {
         queryClient.invalidateQueries('fetchMyRestaurant');
         queryClient.invalidateQueries('fetchMyRestaurantOrders');
         navigate("/");
+        //window.location.reload();
       }
     } catch (error) {
       console.error("Signup error:", error);
@@ -74,8 +78,11 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       localStorage.removeItem("isAuthenticated");
       localStorage.removeItem("user");
+      sessionStorage.removeItem("cart-restaurantId");
+      sessionStorage.removeItem("cartItems");
+      clearCart();
       queryClient.resetQueries('fetchMyRestaurant');
-        queryClient.resetQueries('fetchMyRestaurantOrders');
+      queryClient.resetQueries('fetchMyRestaurantOrders');
       navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);

@@ -24,14 +24,14 @@ if (rootElement) {
     <React.StrictMode>
       <Router>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-              <CartProvider>
+          <CartProvider>
+            <AuthProvider>
+              <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                 <AppRoutes />
                 <Toaster visibleToasts={1} position="top-right" richColors />
-              </CartProvider>
-            </ThemeProvider>
-          </AuthProvider>
+              </ThemeProvider>
+            </AuthProvider>
+          </CartProvider>
         </QueryClientProvider>
       </Router>
     </React.StrictMode>

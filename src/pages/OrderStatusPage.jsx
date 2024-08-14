@@ -59,7 +59,7 @@ const OrderStatusPage = () => {
 
 
     return (
-        <div className="space-y-10">
+        <div className="min-h-screen flex flex-col">
             <div className="flex justify-between items-center">
                 <div>
                     <label htmlFor="sort">Sort by: </label>
@@ -87,26 +87,28 @@ const OrderStatusPage = () => {
                     </select>
                 </div>
             </div>
-            {realTimeOrders && realTimeOrders.length > 0 ? (realTimeOrders.map((order) => (
-                <div key={order._id} className="space-y-10 bg-gray-50 p-10 rounded-lg dark:bg-gray-700">
-                    <OrderStatusHeader order={order} />
-                    <div className="grid gap-10 md:grid-cols-2">
-                        <OrderStatusDetail order={order} />
-                        <AspectRatio ratio={16 / 5}>
-                            <Link
-                                to={`/detail/${order.restaurant._id}`}
-                                className="font-bold tracking-tight mb-2 group-hover:underline dark:text-gray-200"
-                            >
-                                <img
-                                    src={order.restaurant.imageUrl}
-                                    className="rounded-md object-cover h-full w-full"
-                                />
-                            </Link>
-                        </AspectRatio>
+            <div className="flex-grow mt-8">
+                {realTimeOrders && realTimeOrders.length > 0 ? (realTimeOrders.map((order) => (
+                    <div key={order._id} className="space-y-10 bg-gray-50 p-10 rounded-lg dark:bg-gray-700 mb-10">
+                        <OrderStatusHeader order={order} />
+                        <div className="grid gap-10 md:grid-cols-2">
+                            <OrderStatusDetail order={order} />
+                            <AspectRatio ratio={16 / 5}>
+                                <Link
+                                    to={`/detail/${order.restaurant._id}`}
+                                    className="font-bold tracking-tight mb-2 group-hover:underline dark:text-gray-200"
+                                >
+                                    <img
+                                        src={order.restaurant.imageUrl}
+                                        className="rounded-md object-cover h-full w-full"
+                                    />
+                                </Link>
+                            </AspectRatio>
+                        </div>
                     </div>
-                </div>
-            ))
-        ) : (<div>No orders found</div>)}
+                ))
+                ) : (<div className="text-xl font-semibold dark:text-gray-200">No Orders!</div>)}
+            </div>
         </div>
     );
 };

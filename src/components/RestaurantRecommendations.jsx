@@ -15,7 +15,7 @@ const RestaurantRecommendations = ({ userId, pincode }) => {
     return (
         <div className="relative w-full max-w-screen-lg mx-auto mt-8">
             <h2 className="text-center text-xl font-semibold mb-4 dark:text-white">
-                Try Restaurants Recommended Just For You!
+                Try Restaurants Recommended Only For You!
             </h2>
             <div className="flex overflow-x-scroll space-x-4 p-4">
                 {recommendedRestaurants.map((restaurant) => (
