@@ -18,9 +18,9 @@ const MainNav = () => {
     };
 
     const handleCartClick = () => {
-        console.log('handle cart click')
+        //console.log('handle cart click')
         const restaurantId = sessionStorage.getItem('cart-restaurantId');
-        console.log('restid: ' + restaurantId)
+        //console.log('restid: ' + restaurantId)
         if (cartItems.length > 0) {
             if (cartItems.length > 0 && restaurantId) {
                 navigate(`/detail/${restaurantId}`);

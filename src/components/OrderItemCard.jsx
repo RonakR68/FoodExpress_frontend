@@ -62,7 +62,7 @@ const OrderItemCard = ({ order }) => {
     }
 
     const review = order.reviews?.[0];
-    console.log(review);
+    //console.log(review);
 
     return (
         <Card>

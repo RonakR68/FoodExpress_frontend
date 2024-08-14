@@ -109,3 +109,38 @@ export const useUpdateMyUser = () => {
 
     return { updateUser, isLoading };
 };
+
+export const useGetRecommendedRestaurants = (userId, pincode) => {
+    const { isAuthenticated } = useAuth();
+
+    const getRecommendationsRequest = async () => {
+        const response = await fetch(`${API_BASE_URL}/api/my/user/recommendations`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ userId, pincode }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch recommendations");
+        }
+
+        return response.json();
+    };
+
+    const {
+        data: recommendedRestaurants,
+        isLoading,
+        error,
+    } = useQuery(["fetchRecommendations", userId, pincode], getRecommendationsRequest, {
+        enabled: isAuthenticated && !!userId && !!pincode, // Only run the query if the user is authenticated and we have a userId and pincode
+    });
+
+    // if (error) {
+    //     toast.error(error.toString());
+    // }
+
+    return { recommendedRestaurants, isLoading };
+};
