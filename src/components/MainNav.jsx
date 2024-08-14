@@ -33,7 +33,7 @@ const MainNav = () => {
     };
 
     return (
-        <span className="flex space-x-2 items-center">
+        <span className="flex space-x-6 items-center">
             {isAuthenticated ? (
                 <>
                     <Link to="/order-status" className="font-bold hover:text-red-500 dark:hover:text-red-500">
