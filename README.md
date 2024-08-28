@@ -15,6 +15,7 @@ FoodExpress is a food ordering and restaurant management web application. The ba
 - Browse and search restaurants and menus
 - Place and track orders
 - Provide Ratings and Reviews
+- Integrated Restaurant Recommendation system based on user collaborative filtering
 - Manage restaurant section for restaurant owners
 - Restaurant Image upload and management with Cloudinary
 - Data validation and error handling
