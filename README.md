@@ -2,7 +2,7 @@
 
 ## Description
 
-This is frontend repository for FoodExpress app. You can find Backend repository ([here] (https://github.com/RonakR68/FoodExpress_backend)).
+This is Frontend repository for FoodExpress app. You can find Backend repository [here](https://github.com/RonakR68/FoodExpress_backend).
 
 FoodExpress is a food ordering and restaurant management web application. It features a full-stack architecture with a backend built using Node.js, Express, and MongoDB and a frontend developed with React, Vite, and Tailwind CSS. The backend handles user authentication, restaurant management, and integrates with external services like Cloudinary for image uploads.The frontend provides a modern, responsive UI for browsing restaurants, placing orders, and managing user profiles. The app also includes a restaurant recommendation system based on user collaborative filtering.
 
