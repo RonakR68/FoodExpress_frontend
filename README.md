@@ -2,34 +2,38 @@
 
 ## Description
 
-FoodExpress is a food ordering and restaurant management web application. The backend is built using Node.js, Express, and MongoDB. It provides RESTful APIs for managing user authentication, restaurant data, menu items, and orders. The backend also integrates with external services like Cloudinary for image uploads.
+This is frontend repository for FoodExpress app. You can find Backend repository [here] (https://github.com/RonakR68/FoodExpress_backend).
+
+FoodExpress is a food ordering and restaurant management web application. It features a full-stack architecture with a backend built using Node.js, Express, and MongoDB and a frontend developed with React, Vite, and Tailwind CSS. The backend handles user authentication, restaurant management, and integrates with external services like Cloudinary for image uploads.The frontend provides a modern, responsive UI for browsing restaurants, placing orders, and managing user profiles. The app also includes a restaurant recommendation system based on user collaborative filtering.
+
 
 ## Features
 
-- User custom authentication with JWT stored in HTTP-only cookie
-- Option to use Google account for easy, fast and secure authentication
-- Restaurant management (CRUD operations for restaurants, menus, and orders)
-- Secure password storage with bcrypt
-- User profile management
-- Responsive design with a modern UI
-- Browse and search restaurants and menus
-- Place and track orders
-- Provide Ratings and Reviews
-- Integrated Restaurant Recommendation system using user based collaborative filtering
-- Manage restaurant section for restaurant owners
-- Restaurant Image upload and management with Cloudinary
-- Data validation and error handling
-- Dark Mode Support
+- **User Authentication**: Custom JWT authentication stored in HTTP-only cookies, with an option for Google account integration for fast and secure login.
+- **Restaurant Management**: Manage restaurant details, menus, and orders (CRUD).
+- **Secure Password Storage**: Passwords are hashed using bcrypt for security.
+- **User Profile Management**: Users can manage their profiles and update their information.
+- **Responsive Design**: Modern UI with responsive design to ensure a seamless experience for users.
+- **Restaurant Browsing and Search**: Users can browse and search for restaurants and menu items.
+- **Order Placement and Tracking**: Users can place and track their orders.
+- **Ratings and Reviews**: Users can provide ratings and reviews for restaurant orders.
+- **Restaurant Recommendation System**: Collaborative-based recommendation system to suggest restaurants based on user preferences.
+- **Image Upload and Management**: Restaurant image uploads are managed through Cloudinary.
+- **Data Validation and Error Handling**: Validation and error handling across the application.
+- **Dark Mode Support**: Option for users to switch to dark mode for a better viewing experience.
+
 
 ## Technologies Used
 
-- **Node.js**: Server-side JavaScript runtime
-- **Express**: Web application framework
-- **MongoDB**: NoSQL database for data storage
-- **React**: Frontend JavaScript library for building user interfaces
-- **Vite**: Next-generation frontend tooling for fast builds and hot reloading
-- **Tailwind CSS**: Utility-first CSS framework for styling
-- **Shadcn UI**: Component library for UI elements
+- **Node.js**
+- **Express**
+- **MongoDB**
+- **React**
+- **Vite**
+- **Tailwind CSS**
+- **Shadcn UI**
+- **Python Flask**
+- **sci-kit learn**
 
 ## Getting Started
 
