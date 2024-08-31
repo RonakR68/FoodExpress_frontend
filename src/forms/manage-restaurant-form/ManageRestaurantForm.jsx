@@ -145,9 +145,10 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
         if (formDataJson.imageFile) {
             formData.append(`imageFile`, formDataJson.imageFile);
         }
-
+        
+        console.log(formData);
         onSave(formData);
-        window.location.reload();
+        //window.location.reload();
     };
 
     return (
