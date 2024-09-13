@@ -60,16 +60,20 @@ const ReviewPopup = ({ order, onClose, onSubmit }) => {
                         </div>
                     ))}
                 </div>
-                <div className="flex">
-                    {[...Array(5)].map((_, index) => (
-                        <span
-                            key={index}
-                            className={`cursor-pointer text-3xl ${index < rating ? "text-yellow-500" : "text-gray-400 dark:text-gray-600"}`}
-                            onClick={() => handleStarClick(index)}
-                        >
-                            ★
-                        </span>
-                    ))}
+                <div className="flex justify-between items-center">
+                    <span className="text-lg dark:text-gray-200">Overall Rating</span>
+                    <div className="flex">
+                        {[...Array(5)].map((_, index) => (
+
+                            <span
+                                key={index}
+                                className={`cursor-pointer text-2xl ${index < rating ? "text-yellow-500" : "text-gray-400 dark:text-gray-600"}`}
+                                onClick={() => handleStarClick(index)}
+                            >
+                                ★
+                            </span>
+                        ))}
+                    </div>
                 </div>
                 <textarea
                     value={review}
