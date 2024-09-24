@@ -10,7 +10,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
 
-const MenuItemInput = ({ index, removeMenuItem }) => {
+const MenuItemInput = ({ index, removeMenuItem, selectedCuisines }) => {
+    //console.log(selectedCuisines)
     const { control } = useFormContext();
 
     return (
@@ -20,7 +21,7 @@ const MenuItemInput = ({ index, removeMenuItem }) => {
                 name={`menuItems.${index}.name`}
                 render={({ field }) => (
                     <FormItem>
-                        <FormLabel className="flex items-center gap-1 text-primary-foreground dark:text-white">
+                        <FormLabel className="flex items-center gap-1  dark:text-white">
                             Name <FormMessage />
                         </FormLabel>
                         <FormControl>
@@ -38,7 +39,7 @@ const MenuItemInput = ({ index, removeMenuItem }) => {
                 name={`menuItems.${index}.price`}
                 render={({ field }) => (
                     <FormItem>
-                        <FormLabel className="flex items-center gap-1 text-primary-foreground dark:text-white">
+                        <FormLabel className="flex items-center gap-1 dark:text-white">
                             Price (INR) <FormMessage className="text-destructive-foreground dark:text-red-500" />
                         </FormLabel>
                         <FormControl>
@@ -47,6 +48,73 @@ const MenuItemInput = ({ index, removeMenuItem }) => {
                     </FormItem>
                 )}
             />
+
+            <FormField
+                control={control}
+                name={`menuItems.${index}.cuisine`}
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel className="flex items-center gap-1 dark:text-white">
+                            Cuisine
+                        </FormLabel>
+                        <FormControl>
+                            <select
+                                {...field}
+                                className="bg-white dark:bg-gray-800 dark:text-white border rounded-md p-2"
+                                style={{ minWidth: "150px" }}
+                            >
+                                <option value="">Select cuisine</option>
+                                {(selectedCuisines || []).map(cuisine => (
+                                    <option key={cuisine} value={cuisine}>
+                                        {cuisine}
+                                    </option>
+                                ))}
+                            </select>
+                        </FormControl>
+                    </FormItem>
+                )}
+            />
+
+            <div className="flex items-center gap-2 ml-1">
+                <FormField
+                    control={control}
+                    name={`menuItems.${index}.isVeg`}
+                    render={({ field }) => (
+                        <FormItem>
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    value="veg"
+                                    onChange={() => field.onChange('veg')}
+                                    checked={field.value === 'veg'}
+                                    className="mr-1"
+                                />
+                                Veg
+                            </label>
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={control}
+                    name={`menuItems.${index}.isVeg`}
+                    render={({ field }) => (
+                        <FormItem>
+                            <label className="flex items-center mr-2">
+                                <input
+                                    type="radio"
+                                    value="non-veg"
+                                    onChange={() => field.onChange('non-veg')}
+                                    checked={field.value === 'non-veg'}
+                                    className="mr-1"
+                                />
+                                Non-Veg
+                            </label>
+                        </FormItem>
+                    )}
+                />
+            </div>
+
             <Button
                 type="button"
                 onClick={removeMenuItem}

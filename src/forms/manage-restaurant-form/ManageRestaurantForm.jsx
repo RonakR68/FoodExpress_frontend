@@ -41,6 +41,8 @@ const formSchema = z
             z.object({
                 name: z.string().min(1, "name is required"),
                 price: z.coerce.number().min(1, "price is required"),
+                cuisine: z.string().min(1, "Cuisine is required"),
+                isVeg: z.enum(["veg", "non-veg"], "Veg/Non-Veg selection is required"),
             })
         ),
         imageUrl: z.string().optional(),
@@ -51,7 +53,7 @@ const formSchema = z
         path: ["imageFile"],
     });
 
-const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
+const ManageRestaurantForm = ({ onSave, isLoading, restaurant, onCuisineChange }) => {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -63,11 +65,14 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
             deliveryPrice: 0,
             estimatedDeliveryTime: 0,
             cuisines: [],
-            menuItems: [{ name: "", price: 0 }],
+            menuItems: [{ name: "", price: 0, cuisine: "", isVeg: "veg" }],
             //imageUrl: "", 
             //imageFile: null, 
         },
     });
+
+    const { watch } = form;
+    const selectedCuisines = watch("cuisines", []);
 
     useEffect(() => {
         if (!restaurant) {
@@ -81,7 +86,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
                 deliveryPrice: 0,
                 estimatedDeliveryTime: 0,
                 cuisines: [],
-                menuItems: [{ name: "", price: 0 }],
+                menuItems: [{ name: "", price: 0, cuisine: "", isVeg: "veg" }],
                 //imageUrl: "",
                 imageFile: null,
             });
@@ -96,6 +101,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
         const menuItemsFormatted = restaurant.menuItems.map((item) => ({
             ...item,
             price: parseInt((item.price / 100).toFixed(2)),
+            isVeg: item.isVeg === true ? "veg" : "non-veg",
         }));
 
         form.reset({
@@ -107,7 +113,7 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
             deliveryPrice: deliveryPriceFormatted || 0,
             estimatedDeliveryTime: restaurant.estimatedDeliveryTime || 0,
             cuisines: restaurant.cuisines || [],
-            menuItems: menuItemsFormatted.length ? menuItemsFormatted : [{ name: "", price: 0 }],
+            menuItems: menuItemsFormatted.length ? menuItemsFormatted : [{ name: "", price: 0, cuisine: "", isVeg: "veg" }],
             imageUrl: restaurant.imageUrl || "",
             //imageFile: null,
         });
@@ -140,13 +146,18 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
                 `menuItems[${index}][price]`,
                 (menuItem.price * 100).toString()
             );
+            formData.append(`menuItems[${index}][cuisine]`, menuItem.cuisine);
+            formData.append(`menuItems[${index}][isVeg]`, menuItem.isVeg === 'veg');
         });
 
         if (formDataJson.imageFile) {
             formData.append(`imageFile`, formDataJson.imageFile);
         }
-        
-        console.log(formData);
+
+        // console.log('FormData content:');
+        // for (let [key, value] of formData.entries()) {
+        //     console.log(`${key}: ${value}`);
+        // }
         onSave(formData);
         //window.location.reload();
     };
@@ -159,9 +170,9 @@ const ManageRestaurantForm = ({ onSave, isLoading, restaurant }) => {
             >
                 <DetailsSection />
                 <Separator className="border-border" />
-                <CuisinesSection />
+                <CuisinesSection onCuisineChange={onCuisineChange} />
                 <Separator className="border-border" />
-                <MenuSection />
+                <MenuSection selectedCuisines={selectedCuisines} />
                 <Separator className="border-border" />
                 <ImageSection />
                 {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}

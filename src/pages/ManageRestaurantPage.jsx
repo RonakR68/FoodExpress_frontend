@@ -18,6 +18,8 @@ const ManageRestaurantPage = () => {
     const [status, setStatus] = useState('');
     const { orders, isLoading: isOrdersLoading, refetch } = useGetMyRestaurantOrders(sort, status);
     const [realTimeOrders, setRealTimeOrders] = useState(orders || []);
+    const [selectedCuisines, setSelectedCuisines] = useState([]);
+
 
     const applySortAndFilter = (orders, sort, status) => {
         let filteredOrders = orders;
@@ -102,6 +104,9 @@ const ManageRestaurantPage = () => {
 
     const isEditing = !!restaurant; // true if restaurant exists for user
 
+    const handleCuisineChange = (selectedCuisines) => {
+        setSelectedCuisines(selectedCuisines);
+    };
 
     return (
         <Tabs defaultValue={isEditing ? "orders" : "manage-restaurant"}>
@@ -150,6 +155,9 @@ const ManageRestaurantPage = () => {
                     restaurant={restaurant}
                     onSave={isEditing ? updateRestaurant : createRestaurant}
                     isLoading={isCreateLoading || isUpdateLoading}
+                    selectedCuisines={selectedCuisines}
+                    onCuisineChange={handleCuisineChange}
+
                 />
             </TabsContent>
         </Tabs>

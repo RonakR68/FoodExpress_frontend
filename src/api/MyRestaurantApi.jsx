@@ -60,8 +60,8 @@ export const useCreateMyRestaurant = () => {
 export const useUpdateMyRestaurant = () => {
     //console.log('api update rest')
     const updateRestaurantRequest = async (restaurantFormData) => {
-        console.log('update my restaurant');
-        console.log(restaurantFormData)
+        //console.log('update my restaurant');
+        //console.log(restaurantFormData)
         const response = await fetch(`${API_BASE_URL}/api/my/restaurant`, {
             method: "PUT",
             body: restaurantFormData,

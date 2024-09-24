@@ -4,7 +4,7 @@
 
 This is Frontend repository for FoodExpress app. You can find Backend repository [here](https://github.com/RonakR68/FoodExpress_backend).
 
-FoodExpress is a food ordering and restaurant management web application. It features a full-stack architecture with a backend built using Node.js, Express.js and MongoDB and a frontend developed with React, Vite, and Tailwind CSS. The backend handles user authentication, restaurant management, and integrates with external services like Cloudinary for image uploads.The frontend provides a modern, responsive UI for browsing restaurants, placing orders, and managing user profiles. The app also includes a restaurant recommendation system based on user collaborative filtering.
+Food Express is a food ordering and restaurant management web application. It features a full-stack architecture with a backend built using Node.js, Express.js and MongoDB and a frontend developed with React, Vite, and Tailwind CSS. The backend handles user authentication, restaurant management, and integrates with external services like Cloudinary for image uploads.The frontend provides a modern, responsive UI for browsing restaurants, placing orders, and managing user profiles. The app also includes a restaurant recommendation system based on user collaborative filtering.
 
 [Live Webiste Link](https://foodexpress-frontend-g6dx.onrender.com/)
 
@@ -13,8 +13,8 @@ FoodExpress is a food ordering and restaurant management web application. It fea
 ## Features
 
 - **User Authentication**: User authentication using JWT stored in HTTP-only cookie. Users can also use Google account for fast and secure login.
-- **Restaurant Management**: Add and manage restaurant details, menu items and orders.
 - **Secure Password Storage**: Passwords are hashed using bcrypt for security.
+- **Restaurant Management**: Add and manage restaurant details, menu items and orders.
 - **User Profile Management**: Users can manage their profile details and can manage addresses.
 - **Restaurant Browsing and Search**: Users can browse and search for available restaurants and their menu items.
 - **Order Placement and Tracking**: Users can place and track their active orders status and can also view past orders details.
@@ -38,7 +38,7 @@ FoodExpress is a food ordering and restaurant management web application. It fea
 - **Python Flask**
 - **sci-kit learn**
 
-## Getting Started
+## How To Run On Local Machine
 
 ### Prerequisites
 

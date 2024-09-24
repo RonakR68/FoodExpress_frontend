@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     FormDescription,
     FormField,
@@ -9,8 +9,13 @@ import { cuisineList } from "@/config/restaurant-options-config";
 import { useFormContext } from "react-hook-form";
 import CuisineCheckbox from "./CuisineCheckbox";
 
-const CuisinesSection = () => {
-    const { control } = useFormContext();
+const CuisinesSection = ({ onCuisineChange }) => {
+    const { control, watch } = useFormContext();
+    const selectedCuisines = watch("cuisines", []);
+
+    useEffect(() => {
+        onCuisineChange(selectedCuisines);
+    }, [selectedCuisines, onCuisineChange]);
 
     return (
         <div className="space-y-2">

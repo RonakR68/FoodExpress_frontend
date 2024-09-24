@@ -4,7 +4,7 @@ import { FormDescription, FormField, FormItem } from "@/components/ui/form";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MenuItemInput from "./MenuItemInput";
 
-const MenuSection = () => {
+const MenuSection = ({ selectedCuisines }) => {
     const { control } = useFormContext();
 
     const { fields, append, remove } = useFieldArray({
@@ -30,6 +30,7 @@ const MenuSection = () => {
                                 key={index}
                                 index={index}
                                 removeMenuItem={() => remove(index)}
+                                selectedCuisines={selectedCuisines}
                             />
                         ))}
                     </FormItem>
