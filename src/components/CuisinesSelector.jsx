@@ -15,7 +15,7 @@ const CuisinesSelector = ({ selectedCuisines, onCuisineSelect }) => {
     };
 
     return (
-        <div className="relative w-full max-w-screen-lg mx-auto mt-4"> {/* Restrict the width */}
+        <div className="relative w-full max-w-screen-lg mx-auto mt-10"> {/* Restrict the width */}
             <h2 className="text-left text-xl font-semibold dark:text-white ml-4 mb-4">
                 Craving Something Special? Choose Your Cuisine!
             </h2>
