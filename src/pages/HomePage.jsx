@@ -1,15 +1,15 @@
 import landingImage from "../assets/landing.png";
 import appDownloadImage from "../assets/appDownload.png";
-import SearchBar from "@/components/SearchBar";
+// import SearchBar from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
-    const navigate = useNavigate();
-    const handleSearchSubmit = (searchFormValues) => {
-        navigate({
-            pathname: `/search/${searchFormValues.searchQuery}`,
-        });
-    };
+    // const navigate = useNavigate();
+    // const handleSearchSubmit = (searchFormValues) => {
+    //     navigate({
+    //         pathname: `/search/${searchFormValues.searchQuery}`,
+    //     });
+    // };
 
     return (
         <div className="flex flex-col gap-12 mt-12">
@@ -17,7 +17,7 @@ const HomePage = () => {
                 <h1 className="text-2xl font-bold tracking-tight text-primary">
                     Tasty Food is just a click away! Order Now!
                 </h1>
-                <SearchBar placeHolder="Search Restaurant's by City or Pincode" onSubmit={handleSearchSubmit} />
+                {/* <SearchBar placeHolder="Search Restaurant's by City or Pincode" onSubmit={handleSearchSubmit} /> */}
             </div>
             <div className="grid md:grid-cols-2 gap-5">
                 <img src={landingImage} />

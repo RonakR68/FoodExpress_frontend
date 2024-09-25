@@ -33,6 +33,7 @@ export const useSearchRestaurants = (
     city
 ) => {
     const createSearchRequest = async () => {
+        //console.log('search restaurants');
         const params = new URLSearchParams();
         params.set("searchQuery", searchState.searchQuery || "");
         params.set("page", searchState.page.toString());
@@ -46,7 +47,6 @@ export const useSearchRestaurants = (
         if (!response.ok) {
             throw new Error("Failed to get restaurant");
         }
-
         return response.json();
     };
 
@@ -104,4 +104,42 @@ export const useTopRatedRestaurants = (limit = 5) => {
     );
 
     return { topRatedRestaurants, isLoading, error };
+};
+
+export const useCuisineFilteredRestaurants = (selectedCuisines, pincode) => {
+    const createCuisineSearchRequest = async () => {
+        //console.log('Searching restaurants by selected cuisines and pincode');
+
+        const params = new URLSearchParams();
+        params.set("selectedCuisines", selectedCuisines.join(","));
+        if (pincode) {
+            params.set("pincode", pincode);
+        }
+
+        // Update the endpoint to the new one
+        const response = await fetch(
+            `${API_BASE_URL}/api/restaurant/restaurantByCuisines?${params.toString()}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch restaurants by cuisine");
+        }
+
+        return response.json();
+    };
+
+    const { data: cuisineResults, isLoading, isError } = useQuery(
+        ["cuisineFilteredRestaurants", selectedCuisines, pincode],
+        createCuisineSearchRequest,
+        {
+            enabled: selectedCuisines.length > 0, // Only fetch if there are selected cuisines
+            keepPreviousData: true,
+        }
+    );
+
+    return {
+        cuisineResults,
+        isLoading,
+        isError,
+    };
 };
