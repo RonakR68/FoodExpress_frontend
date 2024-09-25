@@ -31,7 +31,7 @@ const Layout = ({ children, showHero = false }) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="pt-[8rem]">
+      <div className="pt-[12rem] md:pt-[8rem]">
         {showHero && (
           <>
             {isAuthenticated && currentUser && defaultAddress && (
