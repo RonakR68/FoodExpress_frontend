@@ -49,7 +49,9 @@ const Layout = ({ children, showHero = false }) => {
                 <h2 className="text-left text-xl font-semibold dark:text-white ml-4">
                   Restaurants Based on Your Selected Cuisines!
                 </h2>
-                <div className="flex overflow-x-scroll space-x-4 p-4">
+                <div className="flex overflow-x-scroll space-x-4 p-4" style={{
+                  scrollbarWidth: 'none',
+                }}>
                   {cuisineResultsData.map((restaurant) => (
                     <div key={restaurant._id} className="min-w-[300px] bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:scale-105 hover:shadow-xl transform transition duration-300">
                       <Link to={`/detail/${restaurant._id}`}>
@@ -84,7 +86,9 @@ const Layout = ({ children, showHero = false }) => {
                   <h2 className="text-left text-xl font-semibold dark:text-white ml-4">
                     Explore Top-Rated Restaurants!
                   </h2>
-                  <div className="flex overflow-x-scroll space-x-4 p-4">
+                  <div className="flex overflow-x-scroll space-x-4 p-4" style={{
+                    scrollbarWidth: 'none',
+                  }}>
                     {topRatedRestaurants.map((restaurant) => (
                       <div key={restaurant._id} className="min-w-[300px] bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:scale-105 hover:shadow-xl transform transition duration-300">
                         <Link to={`/detail/${restaurant._id}`}>
