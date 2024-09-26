@@ -34,7 +34,7 @@ const CuisinesSelector = ({ selectedCuisines, onCuisineSelect }) => {
                             <div
                                 className={`w-24 h-24 bg-cover rounded-full border-4 ${isSelected ? 'border-red-500' : 'border-gray-200'
                                     }`}
-                                style={{ backgroundImage: `url(/assets/Cuisines/${imageName}.jpeg)` }}
+                                style={{ backgroundImage: `url(../assets/Cuisines/${imageName}.jpeg)` }}
                             />
                             <div className="mt-2 text-center text-sm font-semibold">
                                 {cuisine}
