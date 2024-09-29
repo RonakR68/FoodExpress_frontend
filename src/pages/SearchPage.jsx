@@ -67,8 +67,13 @@ const SearchPage = () => {
     }
 
     if (!results?.data || !city) {
-        return <span>No results found</span>;
+        return (
+            <div className="min-h-screen">
+            <span>No results found</span>
+            </div>
+        );
     }
+
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
