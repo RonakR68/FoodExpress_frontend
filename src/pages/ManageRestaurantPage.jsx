@@ -116,7 +116,7 @@ const ManageRestaurantPage = () => {
             </TabsList>
             <TabsContent
                 value="orders"
-                className="space-y-5 bg-gray-100 p-10 rounded-lg dark:bg-gray-700">
+                className="min-h-screen space-y-5 bg-gray-100 p-10 rounded-lg dark:bg-gray-700">
                 <div className="flex justify-between items-center">
                     <div>
                         <label htmlFor="sort">Sort by: </label>

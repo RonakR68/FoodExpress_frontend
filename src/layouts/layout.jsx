@@ -101,7 +101,7 @@ const Layout = ({ children, showHero = false }) => {
                             <h3 className="text-lg font-bold truncate dark:text-white">{restaurant.restaurantName}</h3>
                             <p className="text-sm truncate dark:text-gray-300">{restaurant.city}</p>
                             <p className="text-sm dark:text-gray-300">
-                              Rating: {(restaurant.rating || 0).toFixed(1)}
+                              Rating: {(restaurant.rating || 0).toFixed(1)} ({restaurant.reviews.length})
                             </p>
                           </div>
                         </Link>

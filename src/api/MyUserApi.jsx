@@ -34,7 +34,7 @@ export const useGetMyUser = () => {
     });
 
     if (error) {
-        toast.error(error.toString());
+        //toast.error(error.toString());
     }
 
     return { currentUser, isLoading };
@@ -99,11 +99,11 @@ export const useUpdateMyUser = () => {
     } = useMutation(updateMyUserRequest);
 
     if (isSuccess) {
-        toast.success("User Profile Updated!");
+        toast.success("User Profile Updated!", { duration: 3000 });
     }
 
     if (error) {
-        toast.error(error.toString());
+        toast.error(error.toString(), { duration: 3000 });
         reset();
     }
 

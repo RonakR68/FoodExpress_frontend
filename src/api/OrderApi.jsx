@@ -64,7 +64,7 @@ export const useCreateCheckoutSession = () => {
     } = useMutation(createCheckoutSessionRequest);
 
     if (error) {
-        toast.error(error.toString());
+        toast.error(error.toString(),{ duration: 3000 });
         reset();
     }
 
@@ -110,7 +110,7 @@ export const useSubmitReview = () => {
     } = useMutation(submitReviewRequest);
 
     if (error) {
-        toast.error(error.message);
+        toast.error(error.message,{ duration: 3000 });
         reset();
     }
 
