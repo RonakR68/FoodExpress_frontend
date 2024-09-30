@@ -5,12 +5,14 @@ import { Trash } from "lucide-react";
 
 
 const OrderSummary = ({ restaurant, cartItems, clearCartItem }) => {
-    //console.log(cartItems);
+    console.log(cartItems);
     const getTotalCost = () => {
-        const totalInPence = cartItems.reduce(
-            (total, cartItem) => total + cartItem.price * cartItem.quantity,
-            0
-        );
+        const totalInPence = cartItems
+            .filter((item) => item.restaurantId === restaurant._id)
+            .reduce(
+                (total, cartItem) => total + cartItem.price * cartItem.quantity,
+                0
+            );
 
         const totalWithDelivery = totalInPence + restaurant.deliveryPrice;
 
@@ -26,25 +28,26 @@ const OrderSummary = ({ restaurant, cartItems, clearCartItem }) => {
                 </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-5 dark:text-gray-300">
-                {cartItems.map((item) => (
-                    <div key={item._id} className="flex justify-between">
-                        <span>
-                            <Badge variant="outline" className="mr-2 dark:text-gray-300">
-                                {item.quantity}
-                            </Badge>
-                            {item.name}
-                        </span>
-                        <span className="flex items-center gap-1">
-                            <Trash
-                                className="cursor-pointer"
-                                color="red"
-                                size={20}
-                                onClick={() => clearCartItem(item)}
-                            />
-                            INR {((item.price * item.quantity) / 100).toFixed(2)}
-                        </span>
-                    </div>
-                ))}
+                {cartItems.filter((item) => item.restaurantId === restaurant._id)
+                    .map((item) => (
+                        <div key={item._id} className="flex justify-between">
+                            <span>
+                                <Badge variant="outline" className="mr-2 dark:text-gray-300">
+                                    {item.quantity}
+                                </Badge>
+                                {item.name}
+                            </span>
+                            <span className="flex items-center gap-1">
+                                <Trash
+                                    className="cursor-pointer"
+                                    color="red"
+                                    size={20}
+                                    onClick={() => clearCartItem(item)}
+                                />
+                                INR {((item.price * item.quantity) / 100).toFixed(2)}
+                            </span>
+                        </div>
+                    ))}
                 <Separator />
                 <div className="flex justify-between">
                     <span>Delivery</span>

@@ -15,6 +15,7 @@ const MobileNavLinks = () => {
 
       if (restaurantId) {
         navigate(`/detail/${restaurantId}`);
+        window.location.reload();
       } else {
         navigate('/cart-empty');
       }

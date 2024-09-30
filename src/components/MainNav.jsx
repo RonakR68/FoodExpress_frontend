@@ -24,6 +24,7 @@ const MainNav = () => {
         if (cartItems.length > 0) {
             if (cartItems.length > 0 && restaurantId) {
                 navigate(`/detail/${restaurantId}`);
+                window.location.reload();
             } else {
                 navigate('/cart-empty');
             }

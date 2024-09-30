@@ -28,7 +28,7 @@ const DetailPage = () => {
                 const menuItem = restaurant.menuItems.find(menuItem => menuItem.name === item.name);
                 if (menuItem) {
                     for (let i = 0; i < item.quantity; i++) {
-                        addToCart(menuItem);
+                        addToCart(menuItem, restaurantId);
                     }
                 }
             });
@@ -90,6 +90,10 @@ const DetailPage = () => {
         return (totalWithDelivery / 100).toFixed(2);
     };
 
+    const isCartFromDifferentRestaurant = cartItems.some(
+        (item) => item.restaurantId !== restaurantId
+    );
+
     if (isLoading || !restaurant) {
         return "Loading...";
     }
@@ -138,7 +142,7 @@ const DetailPage = () => {
                         />
                         <CardFooter>
                             <CheckoutButton
-                                disabled={cartItems.length === 0}
+                                disabled={cartItems.length === 0 || isCartFromDifferentRestaurant}
                                 onCheckout={onCheckout}
                                 isLoading={isCheckoutLoading}
                                 orderSummary={orderSummary}
