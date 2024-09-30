@@ -13,7 +13,7 @@ const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const { login } = useAuth();
+    const { login, guestLogin } = useAuth();
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
@@ -30,6 +30,17 @@ const LoginPage = () => {
         } catch (error) {
             console.error("Login error:", error);
             setError("Login Error");
+        }
+    };
+
+    const handleGuestLogin = async () => {
+        try {
+            await guestLogin();
+            const returnTo = location.state?.returnTo || "/";
+            navigate(returnTo);
+        } catch (error) {
+            console.error("Guest Login error:", error);
+            setError("Guest Login Error");
         }
     };
 
@@ -80,6 +91,14 @@ const LoginPage = () => {
                             <Link to="/api/auth/register" className="text-blue-500">
                                 Sign Up
                             </Link>
+                        </p>
+
+                        <p className="text-center mt-4">
+                            <button
+                                onClick={handleGuestLogin}
+                                className="text-blue-500">
+                                Login as Guest
+                            </button>
                         </p>
 
                     </CardContent>

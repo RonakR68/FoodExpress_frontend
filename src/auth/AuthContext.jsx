@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { clearCart }  = useCart();
+  const { clearCart } = useCart();
 
   useEffect(() => {
     localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
@@ -43,8 +43,36 @@ export const AuthProvider = ({ children }) => {
         //window.location.reload();
       }
     } catch (error) {
-      console.error("Login error:", error);
-      throw new Error("Login failed, please try again");
+      if (error.response && error.response.data && error.response.data.message) {
+        console.error("Login error:", error.response.data.message);
+        throw new Error(error.response.data.message);
+      } 
+      else {
+        console.error("Login error:", error.message);
+        throw new Error("Login failed, please try again");
+      }
+    }
+  };
+
+  const guestLogin = async () => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/api/auth/guest-login`,
+        {},
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        setIsAuthenticated(true);
+        setUser(response.data);
+        localStorage.setItem("isAuthenticated", JSON.stringify(true));
+        localStorage.setItem("user", JSON.stringify(response.data));
+        queryClient.invalidateQueries('fetchMyRestaurant');
+        queryClient.invalidateQueries('fetchMyRestaurantOrders');
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Guest login error:", error);
+      throw new Error("Guest login failed, please try again");
     }
   };
 
@@ -90,7 +118,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, setIsAuthenticated, setUser, login, signup, logout, loading }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, setIsAuthenticated, setUser, login, guestLogin, signup, logout, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );
